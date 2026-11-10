@@ -37,6 +37,10 @@ namespace SourceGit.Commands
         public bool RaiseError { get; set; } = true;
         public Models.ICommandLog Log { get; set; } = null;
 
+        // Used by callers that turned `RaiseError` off because they report a whole batch of commands
+        // themselves: they get the git text of the failed command instead of a notification each.
+        public Action<string> ErrorReceiver { get; set; } = null;
+
         public async Task<bool> ExecAsync()
         {
             Log?.AppendLine($"$ git {Args}\n");
@@ -71,6 +75,8 @@ namespace SourceGit.Commands
             {
                 if (RaiseError)
                     RaiseException(e.Message);
+                else
+                    ErrorReceiver?.Invoke(e.Message);
 
                 Log?.AppendLine(string.Empty);
                 return false;
@@ -97,11 +103,15 @@ namespace SourceGit.Commands
 
             if (!CancellationToken.IsCancellationRequested && proc.ExitCode != 0)
             {
+                var errMsg = string.Join("\n", errs).Trim();
                 if (RaiseError)
                 {
-                    var errMsg = string.Join("\n", errs).Trim();
                     if (!string.IsNullOrEmpty(errMsg))
                         RaiseException(errMsg);
+                }
+                else if (!string.IsNullOrEmpty(errMsg))
+                {
+                    ErrorReceiver?.Invoke(errMsg);
                 }
 
                 return false;
@@ -130,6 +140,7 @@ namespace SourceGit.Commands
             proc.WaitForExit();
 
             rs.IsSuccess = proc.ExitCode == 0;
+            ReportReadFailure(rs);
             return rs;
         }
 
@@ -153,7 +164,20 @@ namespace SourceGit.Commands
             await proc.WaitForExitAsync(CancellationToken).ConfigureAwait(false);
 
             rs.IsSuccess = proc.ExitCode == 0;
+            ReportReadFailure(rs);
             return rs;
+        }
+
+        /// <summary>
+        /// A read that fails leaves an empty result behind, which the caller cannot tell apart from
+        /// "the store holds nothing". A caller that took over error reporting (a batch of key writes,
+        /// where the snapshot the whole save is planned from comes from one of these reads) gets the
+        /// git text here; the default behaviour of every other read is untouched.
+        /// </summary>
+        private void ReportReadFailure(Result result)
+        {
+            if (!RaiseError && !result.IsSuccess && !string.IsNullOrEmpty(result.StdErr))
+                ErrorReceiver?.Invoke(result.StdErr);
         }
 
         protected ProcessStartInfo CreateGitStartInfo(bool redirect)
@@ -226,7 +250,10 @@ namespace SourceGit.Commands
 
         protected void RaiseException(string error)
         {
-            Models.Notification.Send(Context, error, true);
+            // Git's own output is kept as the evidence; a known failure only gets one
+            // extra line that says what to check next (never any endpoint detail).
+            var hint = Models.GitFailureHints.For(error);
+            Models.Notification.Send(Context, string.IsNullOrEmpty(hint) ? error : error + "\n\n" + hint, true);
         }
 
         private void HandleOutput(string line, List<string> errs)

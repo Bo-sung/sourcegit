@@ -113,7 +113,22 @@ namespace SourceGit
             if (app._activeLocale != null)
                 app.Resources.MergedDictionaries.Remove(app._activeLocale);
 
-            app.Resources.MergedDictionaries.Add(targetLocale);
+            // English is the fallback dictionary. A catalog that has not picked a new key up yet then
+            // shows the English text instead of the raw "Text.*" key, which is what untranslated
+            // strings looked like before they were moved out of the code. It is merged first, so the
+            // active catalog still wins for every key it does define (Avalonia resolves the last
+            // merged dictionary that holds the key).
+            if (!finalLocaleKey.Equals("en_US", StringComparison.OrdinalIgnoreCase) &&
+                app.Resources["en_US"] is ResourceDictionary fallback &&
+                !app.Resources.MergedDictionaries.Contains(fallback))
+            {
+                app.Resources.MergedDictionaries.Add(fallback);
+            }
+
+            // Switching back to English reuses the fallback entry instead of stacking it twice.
+            if (!app.Resources.MergedDictionaries.Contains(targetLocale))
+                app.Resources.MergedDictionaries.Add(targetLocale);
+
             app._activeLocale = targetLocale;
         }
 

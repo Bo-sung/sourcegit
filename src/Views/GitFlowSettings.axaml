@@ -1,0 +1,186 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SourceGit.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="620" d:DesignHeight="560"
+             x:Class="SourceGit.Views.GitFlowSettings"
+             x:DataType="vm:GitFlowSettings">
+  <!-- The popup host already fixes the dialog width (LauncherPage: 560 DIP, 8 DIP margins), and a
+       vertical StackPanel measures its children with infinite width. So nothing here sets its own
+       width; long notes cap themselves with MaxWidth and wrap inside the dialog instead of
+       overflowing it, which would only scroll the dialog sideways. -->
+  <Grid>
+  <StackPanel Orientation="Vertical" Margin="8,0">
+    <StackPanel Orientation="Horizontal">
+      <Path Width="16" Height="16"
+            Data="{StaticResource Icons.GitFlow}"/>
+
+      <TextBlock FontSize="18"
+                 Margin="8,0,0,0"
+                 Classes="bold"
+                 Text="{DynamicResource Text.GitFlow.Settings.Title}"/>
+    </StackPanel>
+
+    <!-- Dependency and scope: reading settings never needs git-flow, executing it does. -->
+    <Grid Margin="8,12,0,0" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+      <TextBlock Grid.Row="0" Grid.Column="0"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,0,8,0" Foreground="{DynamicResource Brush.FG2}"
+                 Text="{DynamicResource Text.GitFlow.Settings.Dependency}"/>
+      <TextBlock Grid.Row="0" Grid.Column="1"
+                 VerticalAlignment="Center" TextWrapping="Wrap"
+                 Text="{Binding DependencyState}" MaxWidth="510"/>
+
+      <TextBlock Grid.Row="1" Grid.Column="0"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,4,8,0" Foreground="{DynamicResource Brush.FG2}"
+                 Text="{DynamicResource Text.GitFlow.Settings.ScopeLabel}"/>
+      <TextBlock Grid.Row="1" Grid.Column="1"
+                 Margin="0,4,0,0" VerticalAlignment="Center" TextWrapping="Wrap"
+                 Text="{Binding ScopeState}" MaxWidth="510"/>
+
+      <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                 Margin="0,4,0,0" TextWrapping="Wrap" Foreground="OrangeRed"
+                 IsVisible="{Binding ShowGlobalOverrideNote}"
+                 Text="{DynamicResource Text.GitFlow.Settings.GlobalOverride}" MaxWidth="510"/>
+    </Grid>
+
+    <StackPanel Margin="8,8,0,0" IsVisible="{Binding ShowLimitation}">
+      <TextBlock Foreground="OrangeRed" TextWrapping="Wrap" Text="{Binding LimitationState}" MaxWidth="510"/>
+      <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource Brush.FG2}" TextWrapping="Wrap"
+                 IsVisible="{Binding !ShowEditor}"
+                 Text="{Binding ParsedState}" MaxWidth="510"/>
+    </StackPanel>
+
+    <Grid Margin="8,12,0,0" RowDefinitions="32,32,8,32,32,32,32" ColumnDefinitions="Auto,*"
+          IsVisible="{Binding ShowEditor}">
+      <TextBlock Grid.Row="0" Grid.Column="0"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,0,8,0"
+                 Text="{DynamicResource Text.GitFlow.ProductionBranch}"/>
+      <TextBox Grid.Row="0" Grid.Column="1"
+               Height="26"
+               VerticalAlignment="Center"
+               CornerRadius="3"
+               Text="{Binding Production, Mode=TwoWay}"/>
+
+      <TextBlock Grid.Row="1" Grid.Column="0"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,0,8,0"
+                 Text="{DynamicResource Text.GitFlow.DevelopBranch}"/>
+      <TextBox Grid.Row="1" Grid.Column="1"
+               Height="26"
+               VerticalAlignment="Center"
+               CornerRadius="3"
+               Text="{Binding Develop, Mode=TwoWay}"/>
+
+      <Rectangle Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                 Height="1"
+                 Fill="{DynamicResource Brush.Border2}"
+                 VerticalAlignment="Center"/>
+
+      <TextBlock Grid.Row="3" Grid.Column="0"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,0,8,0"
+                 Text="{DynamicResource Text.GitFlow.FeaturePrefix}"/>
+      <TextBox Grid.Row="3" Grid.Column="1"
+               Height="26"
+               VerticalAlignment="Center"
+               CornerRadius="3"
+               Text="{Binding FeaturePrefix, Mode=TwoWay}"/>
+
+      <TextBlock Grid.Row="4" Grid.Column="0"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,0,8,0"
+                 Text="{DynamicResource Text.GitFlow.ReleasePrefix}"/>
+      <TextBox Grid.Row="4" Grid.Column="1"
+               Height="26"
+               VerticalAlignment="Center"
+               CornerRadius="3"
+               Text="{Binding ReleasePrefix, Mode=TwoWay}"/>
+
+      <TextBlock Grid.Row="5" Grid.Column="0"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,0,8,0"
+                 Text="{DynamicResource Text.GitFlow.HotfixPrefix}"/>
+      <TextBox Grid.Row="5" Grid.Column="1"
+               Height="26"
+               VerticalAlignment="Center"
+               CornerRadius="3"
+               Text="{Binding HotfixPrefix, Mode=TwoWay}"/>
+
+      <TextBlock Grid.Row="6" Grid.Column="0"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,0,8,0"
+                 Text="{DynamicResource Text.GitFlow.TagPrefix}"/>
+      <TextBox Grid.Row="6" Grid.Column="1"
+               Height="26"
+               VerticalAlignment="Center"
+               CornerRadius="3"
+               Watermark="{DynamicResource Text.Optional}"
+               Text="{Binding TagPrefix, Mode=TwoWay}"/>
+    </Grid>
+
+    <!-- Impact of saving: which branches the client would treat as git-flow branches afterwards. -->
+    <StackPanel Margin="8,12,0,0" IsVisible="{Binding ShowEditor}">
+      <TextBlock Classes="bold" Text="{DynamicResource Text.GitFlow.Settings.Impact}"/>
+
+      <Grid Margin="8,4,0,0" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="130,*">
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0,0,8,0"
+                   Foreground="{DynamicResource Brush.FG2}"
+                   Text="{DynamicResource Text.GitFlow.ProductionBranch}"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ProductionImpact}" TextWrapping="Wrap"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,0,8,0"
+                   Foreground="{DynamicResource Brush.FG2}"
+                   Text="{DynamicResource Text.GitFlow.DevelopBranch}"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DevelopImpact}" TextWrapping="Wrap"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="0,0,8,0"
+                   Foreground="{DynamicResource Brush.FG2}"
+                   Text="{DynamicResource Text.GitFlow.Settings.Prefixes}"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding FeatureImpact}" TextWrapping="Wrap"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Foreground="{DynamicResource Brush.FG2}"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ReleaseImpact}" TextWrapping="Wrap"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Foreground="{DynamicResource Brush.FG2}"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding HotfixImpact}" TextWrapping="Wrap"/>
+      </Grid>
+
+      <TextBlock Margin="8,6,0,0" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                 Text="{Binding NoBranchChangeState}" MaxWidth="510"/>
+
+      <!-- The git-flow-next form stores a key map per branch, so explain what a base rename rewrites. -->
+      <TextBlock Margin="8,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                 IsVisible="{Binding ShowNextNote}"
+                 Text="{DynamicResource Text.GitFlow.Settings.NextEditor}" MaxWidth="510"/>
+
+      <TextBlock Margin="8,4,0,0" TextWrapping="Wrap" Foreground="OrangeRed"
+                 IsVisible="{Binding HasMissingBranch}"
+                 Text="{DynamicResource Text.GitFlow.Settings.MissingBranch}" MaxWidth="510"/>
+    </StackPanel>
+
+    <!-- The stored keys themselves: the inspection path that stays available without git-flow. -->
+    <StackPanel Margin="8,12,0,0">
+      <TextBlock Classes="bold" Text="{DynamicResource Text.GitFlow.Settings.Keys}"/>
+      <ItemsControl Margin="8,4,0,0" ItemsSource="{Binding Keys}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Grid ColumnDefinitions="*,Auto" Margin="0,1">
+              <TextBlock Grid.Column="0" FontFamily="{DynamicResource Fonts.Monospace}" FontSize="11"
+                         Foreground="{DynamicResource Brush.FG2}" Text="{Binding Key}"/>
+              <TextBlock Grid.Column="1" FontFamily="{DynamicResource Fonts.Monospace}" FontSize="11"
+                         Text="{Binding Value}"/>
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <TextBlock Margin="8,4,0,0" Foreground="{DynamicResource Brush.FG2}"
+                 IsVisible="{Binding !HasKeys}"
+                 Text="{DynamicResource Text.GitFlow.Settings.KeysEmpty}"/>
+    </StackPanel>
+  </StackPanel>
+  </Grid>
+</UserControl>

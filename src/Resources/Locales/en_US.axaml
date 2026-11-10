@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:String x:Key="Text.About" xml:space="preserve">About</x:String>
   <x:String x:Key="Text.About.Menu" xml:space="preserve">About SourceGit</x:String>
   <x:String x:Key="Text.About.ReleaseDate" xml:space="preserve">Release Date: {0}</x:String>
@@ -53,7 +53,9 @@
   <x:String x:Key="Text.Bisect.WaitingForFirstGood">Bisecting. Mark current commit as good or bad and checkout another one.</x:String>
   <x:String x:Key="Text.Bisect.WaitingForMark">Bisecting. Is current HEAD good or bad?</x:String>
   <x:String x:Key="Text.Blame" xml:space="preserve">Blame</x:String>
+  <x:String x:Key="Text.Blame.Back" xml:space="preserve">Go Back</x:String>
   <x:String x:Key="Text.Blame.BlameOnPreviousRevision" xml:space="preserve">Blame on Previous Revision</x:String>
+  <x:String x:Key="Text.Blame.Forward" xml:space="preserve">Go Forward</x:String>
   <x:String x:Key="Text.Blame.IgnoreWhitespace">Ignore whitespace changes</x:String>
   <x:String x:Key="Text.Blame.Tips" xml:space="preserve">Holding Ctrl (on Windows/Linux) or ⌘ (on macOS) when clicking commit SHA will rebuild blame data based on that revision.</x:String>
   <x:String x:Key="Text.Blame.TypeNotSupported" xml:space="preserve">BLAME ON THIS FILE IS NOT SUPPORTED!!!</x:String>
@@ -135,6 +137,52 @@
   <x:String x:Key="Text.CherryPick.CommitChanges" xml:space="preserve">Commit all changes</x:String>
   <x:String x:Key="Text.CherryPick.Mainline" xml:space="preserve">Mainline:</x:String>
   <x:String x:Key="Text.CherryPick.Mainline.Tips" xml:space="preserve">Usually you cannot cherry-pick a merge because you do not know which side of the merge should be considered the mainline. This option allows cherry-pick to replay the change relative to the specified parent.</x:String>
+  <x:String x:Key="Text.Classic.EnableLayout" xml:space="preserve">Classic UX (restart required)</x:String>
+  <x:String x:Key="Text.Classic.FileStatus" xml:space="preserve">File Status</x:String>
+  <x:String x:Key="Text.Classic.History" xml:space="preserve">History</x:String>
+  <x:String x:Key="Text.Classic.More" xml:space="preserve">More…</x:String>
+  <x:String x:Key="Text.Classic.Navigation" xml:space="preserve">Workspace navigation</x:String>
+  <x:String x:Key="Text.Classic.Submodule.InitOff" xml:space="preserve">Uninitialized targets are left as they are.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.InitOn" xml:space="preserve">Uninitialized targets are initialized first (--init).</x:String>
+  <x:String x:Key="Text.Classic.Submodule.ModeRecorded" xml:space="preserve">Default: each target is updated to the commit recorded in this repository.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.ModeRemote" xml:space="preserve">Remote-tracking branch: each target is updated to its remote-tracking branch instead of the recorded commit.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.NoTarget" xml:space="preserve">No target path. Nothing will be updated.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.RecursiveOff" xml:space="preserve">Only the target paths are updated; nested submodules are not included.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.RecursiveOn" xml:space="preserve">Nested submodules of the targets are included (--recursive).</x:String>
+  <x:String x:Key="Text.Classic.Submodule.Status.Normal" xml:space="preserve">clean</x:String>
+  <x:String x:Key="Text.Classic.Submodule.Targets" xml:space="preserve">Targets:</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnDirty" xml:space="preserve">Some targets already have local changes. This dialog does not discard, reset or force them.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnLocalURL" xml:space="preserve">Uninitialized targets that point at a local path are cloned through git's file transport, which is blocked by default. Set protocol.file.allow for this repository, or use an http/ssh URL.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnLocalURLPaths" xml:space="preserve">Local URLs:</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnModified" xml:space="preserve">Modified:</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnUnmerged" xml:space="preserve">Unmerged:</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthAnonymous" xml:space="preserve">Local path or git protocol: no interactive login is expected here; external credential settings are not inspected.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthFailureHint" xml:space="preserve">If it fails, read the Git and SSH output in the log that opens during the operation. Authentication success itself is not verified here.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthHTTPS" xml:space="preserve">HTTPS endpoint: Git and its configured credential mechanisms handle authentication. It is not verified here.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthMixed" xml:space="preserve">Mixed endpoints: each remote may authenticate differently. Check the log output if it fails.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthSSH" xml:space="preserve">SSH endpoint: Git uses the SSH key configured for this remote when set, otherwise its default key or ssh-agent. It is not verified here.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Endpoint" xml:space="preserve">Endpoint:</x:String>
+  <x:String x:Key="Text.Classic.Transfer.EndpointHidden" xml:space="preserve">Hidden: the URL format is unknown or may contain secrets.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailConnect" xml:space="preserve">The endpoint could not be reached. Check the host, port, VPN or proxy, and the remote URL; authentication was not attempted.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailCredential" xml:space="preserve">Git needs a credential it does not have. Check the account or token Git is configured to use; SourceGit stores no credentials itself.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailLocalTransport" xml:space="preserve">Git blocked the local file transport for safety. Use an absolute path or a network URL, or allow it in this repository with git config protocol.file.allow.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailRepository" xml:space="preserve">Git could not read that repository. Check the path, its capitalization, and whether your account may read it.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailSSHHostKey" xml:space="preserve">Git rejected the server's host key. Verify the fingerprint with the server owner and update your own known_hosts; SourceGit never trusts or rewrites it.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailSSHPermission" xml:space="preserve">The server refused this machine's SSH key. Check the private key set for this remote and that its public key is registered on the account; SourceGit changes no SSH config or agent.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailTLSCert" xml:space="preserve">Git rejected the server certificate. Check the system trust store or Git http.ssl settings instead of disabling verification.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Mapping" xml:space="preserve">Branch mapping:</x:String>
+  <x:String x:Key="Text.Classic.Transfer.NewBranch" xml:space="preserve">Creates a new branch on the remote.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.NoUpstream" xml:space="preserve">The current branch has no tracking branch yet.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.NotSelected" xml:space="preserve">No remote branch is selected.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.PushURLEndpoint" xml:space="preserve">pushURL</x:String>
+  <x:String x:Key="Text.Classic.Transfer.SecretHidden" xml:space="preserve">Credentials, query and fragment are hidden in this summary.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.SshKeyConfigured" xml:space="preserve">A private SSH key is set for this remote.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.SshKeyDefault" xml:space="preserve">No remote SSH key is set, so the default key or ssh-agent is used.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Target" xml:space="preserve">Target:</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Tracked" xml:space="preserve">Matches the tracking branch of the current branch.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.TrackingUpdate" xml:space="preserve">The tracking branch will be updated (-u).</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Untracked" xml:space="preserve">Different from the tracking branch of the current branch.</x:String>
+  <x:String x:Key="Text.Classic.Workspace" xml:space="preserve">WORKSPACE</x:String>
   <x:String x:Key="Text.ClearStashes" xml:space="preserve">Clear Stashes</x:String>
   <x:String x:Key="Text.ClearStashes.Message" xml:space="preserve">You are trying to clear all stashes. Are you sure to continue?</x:String>
   <x:String x:Key="Text.Clone" xml:space="preserve">Clone Remote Repository</x:String>
@@ -222,6 +270,10 @@
   ${files:N} Max N number of paths of changed files
   ${pure_files} Likes ${files}, but only pure file names
   ${pure_files:N} Likes ${files:N}, but without folders</x:String>
+  <x:String x:Key="Text.Configure.CommitMessageTemplate.StorageNote" xml:space="preserve">Templates listed here are saved in this repository&apos;s settings file, so other clones do not get them.</x:String>
+  <x:String x:Key="Text.Configure.CommitMessageTemplate.GitTemplate" xml:space="preserve">Git commit.template:</x:String>
+  <x:String x:Key="Text.Configure.CommitMessageTemplate.NotConfigured" xml:space="preserve">(not set)</x:String>
+  <x:String x:Key="Text.Configure.CommitMessageTemplate.GitTemplateMissing" xml:space="preserve">That file does not exist.</x:String>
   <x:String x:Key="Text.Configure.CommitMessageTemplate.Content" xml:space="preserve">Template Content:</x:String>
   <x:String x:Key="Text.Configure.CommitMessageTemplate.Name" xml:space="preserve">Template Name:</x:String>
   <x:String x:Key="Text.Configure.CustomAction" xml:space="preserve">CUSTOM ACTION</x:String>
@@ -252,6 +304,11 @@
   <x:String x:Key="Text.Configure.Email.Placeholder" xml:space="preserve">Email address</x:String>
   <x:String x:Key="Text.Configure.Git" xml:space="preserve">GIT</x:String>
   <x:String x:Key="Text.Configure.Git.AskBeforeAutoUpdatingSubmodules" xml:space="preserve">Ask before auto-updating submodules</x:String>
+  <x:String x:Key="Text.Configure.Git.DefaultRemoteAuto" xml:space="preserve">None: every operation follows the branch tracking remote</x:String>
+  <x:String x:Key="Text.Configure.Git.SigningEffective" xml:space="preserve">Effective signing:</x:String>
+  <x:String x:Key="Text.Configure.Git.SigningProgram" xml:space="preserve">with</x:String>
+  <x:String x:Key="Text.Configure.Git.SigningProgramMissing" xml:space="preserve">The configured signing program does not exist, so signing will fail. Set the program path in the preferences.</x:String>
+  <x:String x:Key="Text.Configure.Git.SigningKeyMissing" xml:space="preserve">Commit signing is enabled without a signing key, so signing will fail.</x:String>
   <x:String x:Key="Text.Configure.Git.AutoFetch" xml:space="preserve">Fetch remotes automatically</x:String>
   <x:String x:Key="Text.Configure.Git.AutoFetchIntervalSuffix" xml:space="preserve">Minute(s)</x:String>
   <x:String x:Key="Text.Configure.Git.ConventionalTypesOverride" xml:space="preserve">Conventional Commit Types</x:String>
@@ -271,6 +328,9 @@
   <x:String x:Key="Text.Configure.IssueTracker.Regex" xml:space="preserve">Issue Regex Expression:</x:String>
   <x:String x:Key="Text.Configure.IssueTracker.RuleName" xml:space="preserve">Rule Name:</x:String>
   <x:String x:Key="Text.Configure.IssueTracker.Share" xml:space="preserve">Share this rule in .issuetracker file</x:String>
+  <x:String x:Key="Text.Configure.IssueTracker.SharedFile" xml:space="preserve">Shared rules are stored in:</x:String>
+  <x:String x:Key="Text.Configure.IssueTracker.SharedFileMissing" xml:space="preserve">(no file yet)</x:String>
+  <x:String x:Key="Text.Configure.IssueTracker.PrivateNote" xml:space="preserve">A rule that is not shared is stored in this repository&apos;s local Git config.</x:String>
   <x:String x:Key="Text.Configure.IssueTracker.URLTemplate" xml:space="preserve">Result URL:</x:String>
   <x:String x:Key="Text.Configure.IssueTracker.URLTemplate.Tip" xml:space="preserve">Please use $1, $2 to access regex groups values.</x:String>
   <x:String x:Key="Text.Configure.OpenAI" xml:space="preserve">AI</x:String>
@@ -419,6 +479,11 @@
   <x:String x:Key="Text.EditRepositoryNode.Target" xml:space="preserve">Target:</x:String>
   <x:String x:Key="Text.EditRepositoryNode.TitleForGroup" xml:space="preserve">Edit Selected Group</x:String>
   <x:String x:Key="Text.EditRepositoryNode.TitleForRepository" xml:space="preserve">Edit Selected Repository</x:String>
+  <x:String x:Key="Text.Exception.BadGitFlowBranchType" xml:space="preserve">Bad git-flow branch type!!!</x:String>
+  <x:String x:Key="Text.Exception.CLIBasedDiffToolUnsupported" xml:space="preserve">CLI based diff tool "{0}" is not supported by this app!</x:String>
+  <x:String x:Key="Text.Exception.CLIBasedMergeToolUnsupported" xml:space="preserve">CLI based merge tool "{0}" is not supported by this app!</x:String>
+  <x:String x:Key="Text.Exception.InvalidDiffMergeTool" xml:space="preserve">Invalid diff/merge tool in preference setting!</x:String>
+  <x:String x:Key="Text.Exception.MissingGitConfig" xml:space="preserve">Missing git configuration: {0}</x:String>
   <x:String x:Key="Text.ExecuteCustomAction.Target" xml:space="preserve">Target:</x:String>
   <x:String x:Key="Text.ExecuteCustomAction.Repository" xml:space="preserve">This repository</x:String>
   <x:String x:Key="Text.Fetch" xml:space="preserve">Fetch</x:String>
@@ -458,6 +523,7 @@
   <x:String x:Key="Text.FileModeChange.Unknown" xml:space="preserve">Unknown</x:String>
   <x:String x:Key="Text.GitFlow" xml:space="preserve">Git-Flow</x:String>
   <x:String x:Key="Text.GitFlow.DevelopBranch" xml:space="preserve">Development Branch:</x:String>
+  <x:String x:Key="Text.GitFlow.DependencyUnavailable" xml:space="preserve">Git-Flow is unavailable or has not been detected for the selected Git executable. This operation was not executed. Check the Git executable and git-flow dependency in Preferences, then retry after detection finishes.</x:String>
   <x:String x:Key="Text.GitFlow.Feature" xml:space="preserve">Feature:</x:String>
   <x:String x:Key="Text.GitFlow.FeaturePrefix" xml:space="preserve">Feature Prefix:</x:String>
   <x:String x:Key="Text.GitFlow.Finish" xml:space="preserve">Finish ${0}$</x:String>
@@ -470,10 +536,43 @@
   <x:String x:Key="Text.GitFlow.Hotfix" xml:space="preserve">Hotfix:</x:String>
   <x:String x:Key="Text.GitFlow.HotfixPrefix" xml:space="preserve">Hotfix Prefix:</x:String>
   <x:String x:Key="Text.GitFlow.Init" xml:space="preserve">Initialize Git-Flow</x:String>
+  <x:String x:Key="Text.GitFlow.InitOverwriteWarning" xml:space="preserve">This repository already has git-flow configuration. Re-running init can add branches and rewrite those keys; to change values only, use the Git-Flow Settings entry below.</x:String>
   <x:String x:Key="Text.GitFlow.KeepBranchAfterFinish" xml:space="preserve">Keep branch</x:String>
   <x:String x:Key="Text.GitFlow.ProductionBranch" xml:space="preserve">Production Branch:</x:String>
   <x:String x:Key="Text.GitFlow.Release" xml:space="preserve">Release:</x:String>
   <x:String x:Key="Text.GitFlow.ReleasePrefix" xml:space="preserve">Release Prefix:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings" xml:space="preserve">Git-Flow Settings...</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Title" xml:space="preserve">Git-Flow Settings</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Dependency" xml:space="preserve">Dependency:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.DepLegacy" xml:space="preserve">git-flow (legacy)</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.DepNext" xml:space="preserve">git-flow-next</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.DepUnknown" xml:space="preserve">not detected for the selected Git executable yet - viewing and saving settings stays available, git-flow start and finish stay blocked</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ScopeLabel" xml:space="preserve">Config scope:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Scope" xml:space="preserve">This repository writes its own .git/config: {0} git-flow key(s) there, {1} in the global config.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.GlobalOverride" xml:space="preserve">The global config also holds git-flow keys. Saving writes the repository local keys, which take precedence over them.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Impact" xml:space="preserve">Effect on existing branches</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Prefixes" xml:space="preserve">Prefixes:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.BranchExists" xml:space="preserve">exists locally</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.BranchMissing" xml:space="preserve">not a local branch</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.MatchCount" xml:space="preserve">matching branches:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.MissingBranch" xml:space="preserve">A base branch is not a local branch, so Git-Flow start and finish stay hidden until it exists. Saving here never creates a branch.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.NoBranchChange" xml:space="preserve">Saving writes only the keys listed below. No branch is created, renamed, deleted or checked out, and unrelated keys such as gitflow.prefix.bugfix are kept.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Parsed" xml:space="preserve">Current values: production {0}, develop {1}, feature {2}, release {3}, hotfix {4}.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Keys" xml:space="preserve">Stored keys</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.KeysEmpty" xml:space="preserve">No gitflow.* key is stored for this repository.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ReadOnlyNone" xml:space="preserve">This repository has no git-flow keys yet. Initialize git-flow first, or set the keys with your git-flow tool; nothing can be changed here.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ReadOnlyUnclassified" xml:space="preserve">This repository stores git-flow keys, but this client cannot tell which git-flow variant owns them: no git-flow was detected for the selected Git executable and gitflow.initialized is not true. The keys below are listed for inspection only, and saving changes nothing.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.NextEditor" xml:space="preserve">git-flow-next stores each branch as its own key map (gitflow.branch.&lt;name&gt;.type|parent|prefix|...). Renaming a base branch copies that whole map, repoints the parent/startpoint references to the new name, and only then removes the old keys; no git branch is created, renamed, deleted or checked out. Keys outside the ones above (bugfix, support, merge strategies, autoupdate) are kept unchanged.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ReadOnlyInherited" xml:space="preserve">These git-flow keys are held by a config file above this repository (your own or the system one). This window writes the repository's own config only, so they are listed here read-only.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ReadOnlyUnknown" xml:space="preserve">The stored git-flow keys are not in a shape this client reads (see the keys below), so editing is disabled instead of mixing the two formats. Fix them with your git-flow tool.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Saved" xml:space="preserve">Git-Flow settings saved.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveFailed" xml:space="preserve">Could not save these keys: {0}</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveLeftover" xml:space="preserve">These keys are still stored because undoing them failed too: {0}. Run these to drop them, then save again:
+{1}</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveInherited" xml:space="preserve">These keys are only in a config file above this repository (global or system), which this window never writes: {0}. Nothing was changed here; edit that file or initialize git-flow in this repository first.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveReadFailed" xml:space="preserve">This repository's own config file could not be read, so nothing was written. Reported by git: {0}</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveErrorUnknown" xml:space="preserve">git gave no reason</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveError" xml:space="preserve">Reported by git: {0}</x:String>
   <x:String x:Key="Text.GitFlow.StartAt" xml:space="preserve">Start at:</x:String>
   <x:String x:Key="Text.GitFlow.StartFeature" xml:space="preserve">Start Feature...</x:String>
   <x:String x:Key="Text.GitFlow.StartFeatureTitle" xml:space="preserve">Start Feature</x:String>
@@ -579,10 +678,26 @@
   <x:String x:Key="Text.InProgress.Revert" xml:space="preserve">Revert in progress.</x:String>
   <x:String x:Key="Text.InProgress.Revert.Head" xml:space="preserve">Reverting commit</x:String>
   <x:String x:Key="Text.InteractiveRebase" xml:space="preserve">Interactive Rebase</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Drop" xml:space="preserve">Drop</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Edit" xml:space="preserve">Edit</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Fixup" xml:space="preserve">Fixup</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Pick" xml:space="preserve">Pick</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Reword" xml:space="preserve">Reword</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Squash" xml:space="preserve">Squash</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Drop" xml:space="preserve">Remove commit</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Edit" xml:space="preserve">Stop for amending</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Fixup" xml:space="preserve">Like 'Squash' but discard the message</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Pick" xml:space="preserve">Use this commit</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Reword" xml:space="preserve">Edit the commit message</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Squash" xml:space="preserve">Meld into previous commit</x:String>
   <x:String x:Key="Text.InteractiveRebase.AutoStash" xml:space="preserve">Stash &amp; reapply local changes</x:String>
+  <x:String x:Key="Text.InteractiveRebase.EditMessage" xml:space="preserve">Edit Commit Message</x:String>
+  <x:String x:Key="Text.InteractiveRebase.MoveDown" xml:space="preserve">Move Down</x:String>
+  <x:String x:Key="Text.InteractiveRebase.MoveUp" xml:space="preserve">Move Up</x:String>
   <x:String x:Key="Text.InteractiveRebase.NoVerify" xml:space="preserve">Bypass the pre-rebase hook</x:String>
   <x:String x:Key="Text.InteractiveRebase.On" xml:space="preserve">On:</x:String>
   <x:String x:Key="Text.InteractiveRebase.ReorderTip" xml:space="preserve">Drag-drop to reorder commits</x:String>
+  <x:String x:Key="Text.InteractiveRebase.SelectAction" xml:space="preserve">Select Action</x:String>
   <x:String x:Key="Text.InteractiveRebase.Target" xml:space="preserve">Target Branch:</x:String>
   <x:String x:Key="Text.IssueLinkCM.CopyLink" xml:space="preserve">Copy Link</x:String>
   <x:String x:Key="Text.IssueLinkCM.OpenInBrowser" xml:space="preserve">Open in Browser</x:String>
@@ -871,6 +986,16 @@
   <x:String x:Key="Text.RepositoryURL" xml:space="preserve">Git Repository URL</x:String>
   <x:String x:Key="Text.Reset" xml:space="preserve">Reset Current Branch To Revision</x:String>
   <x:String x:Key="Text.Reset.Mode" xml:space="preserve">Reset Mode:</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Hard" xml:space="preserve">Discard all changes</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Keep" xml:space="preserve">Reset while keeping local modifications</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Merge" xml:space="preserve">Reset while keeping unmerged changes</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Mixed" xml:space="preserve">Keep all changes. Unstage differences</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Soft" xml:space="preserve">Keep all changes. Stage differences</x:String>
+  <x:String x:Key="Text.Reset.Mode.Hard" xml:space="preserve">Hard</x:String>
+  <x:String x:Key="Text.Reset.Mode.Keep" xml:space="preserve">Keep</x:String>
+  <x:String x:Key="Text.Reset.Mode.Merge" xml:space="preserve">Merge</x:String>
+  <x:String x:Key="Text.Reset.Mode.Mixed" xml:space="preserve">Mixed</x:String>
+  <x:String x:Key="Text.Reset.Mode.Soft" xml:space="preserve">Soft</x:String>
   <x:String x:Key="Text.Reset.MoveTo" xml:space="preserve">Move To:</x:String>
   <x:String x:Key="Text.Reset.Target" xml:space="preserve">Current Branch:</x:String>
   <x:String x:Key="Text.ResetWithoutCheckout" xml:space="preserve">Reset Branch (Without Checkout)</x:String>
@@ -935,8 +1060,16 @@
   <x:String x:Key="Text.Stash.Message" xml:space="preserve">Message:</x:String>
   <x:String x:Key="Text.Stash.Message.Placeholder" xml:space="preserve">Optional. Message of this stash</x:String>
   <x:String x:Key="Text.Stash.Mode" xml:space="preserve">Mode:</x:String>
+  <x:String x:Key="Text.Stash.Mode.Discard" xml:space="preserve">Discard</x:String>
+  <x:String x:Key="Text.Stash.Mode.Discard.Desc" xml:space="preserve">All (or selected) changes will be discarded</x:String>
+  <x:String x:Key="Text.Stash.Mode.KeepAll" xml:space="preserve">Keep All</x:String>
+  <x:String x:Key="Text.Stash.Mode.KeepAll.Desc" xml:space="preserve">All (or selected) changes are left intact</x:String>
+  <x:String x:Key="Text.Stash.Mode.KeepIndex" xml:space="preserve">Keep Index</x:String>
+  <x:String x:Key="Text.Stash.Mode.KeepIndex.Desc" xml:space="preserve">Staged changes are left intact</x:String>
   <x:String x:Key="Text.Stash.OnlyStagedChanges" xml:space="preserve">Only staged files</x:String>
   <x:String x:Key="Text.Stash.TipForSelectedFiles" xml:space="preserve">Both staged and unstaged changes of selected file(s) will be stashed!!!</x:String>
+  <x:String x:Key="Text.Stash.TipIncludeUntracked" xml:space="preserve">Uses --include-untracked.</x:String>
+  <x:String x:Key="Text.Stash.TipOnlyStaged" xml:space="preserve">Uses --staged. For a partially staged file, its unstaged part is stashed too.</x:String>
   <x:String x:Key="Text.Stash.Title" xml:space="preserve">Stash Local Changes</x:String>
   <x:String x:Key="Text.StashCM.Apply" xml:space="preserve">Apply</x:String>
   <x:String x:Key="Text.StashCM.ApplyFileChanges" xml:space="preserve">Apply Changes</x:String>
@@ -1001,6 +1134,7 @@
   <x:String x:Key="Text.TagCM.DeleteMultiple" xml:space="preserve">Delete selected {0} tags...</x:String>
   <x:String x:Key="Text.TagCM.Merge" xml:space="preserve">Merge ${0}$ into ${1}$...</x:String>
   <x:String x:Key="Text.TagCM.Push" xml:space="preserve">Push ${0}$...</x:String>
+  <x:String x:Key="Text.Terminal.NotSpecified" xml:space="preserve">Terminal is not specified! Please confirm that the correct shell/terminal has been configured.</x:String>
   <x:String x:Key="Text.Terminate" xml:space="preserve">TERMINATE</x:String>
   <x:String x:Key="Text.TrustRepository" xml:space="preserve">Untrusted Repository</x:String>
   <x:String x:Key="Text.TrustRepository.CommandTip" xml:space="preserve">Do you want to run `git config --global --add safe.directory {0}` command to trust this path?</x:String>
@@ -1014,6 +1148,13 @@
   <x:String x:Key="Text.UpdateSubmodules.Recursive" xml:space="preserve">Update nested submodules</x:String>
   <x:String x:Key="Text.UpdateSubmodules.UpdateToRemoteTrackingBranch" xml:space="preserve">Update to submodule's remote tracking branch</x:String>
   <x:String x:Key="Text.URL" xml:space="preserve">URL:</x:String>
+  <x:String x:Key="Text.Validation.BadTagName" xml:space="preserve">Bad tag name format!</x:String>
+  <x:String x:Key="Text.Validation.BranchExists" xml:space="preserve">A branch named "{0}" already exists!</x:String>
+  <x:String x:Key="Text.Validation.InvalidBranchName" xml:space="preserve">{0} is not a valid branch name!</x:String>
+  <x:String x:Key="Text.Validation.PathNotEmpty" xml:space="preserve">The given path is not empty!</x:String>
+  <x:String x:Key="Text.Validation.PathRequired" xml:space="preserve">Worktree path is required!</x:String>
+  <x:String x:Key="Text.Validation.TagExists" xml:space="preserve">A tag with the same name already exists!</x:String>
+  <x:String x:Key="Text.Validation.TagNameRequired" xml:space="preserve">Tag name is required!</x:String>
   <x:String x:Key="Text.ViewLogs" xml:space="preserve">Logs</x:String>
   <x:String x:Key="Text.ViewLogs.Clear" xml:space="preserve">CLEAR ALL</x:String>
   <x:String x:Key="Text.ViewLogs.CopyLog" xml:space="preserve">Copy</x:String>

@@ -1,4 +1,4 @@
-<v:ChromelessWindow xmlns="https://github.com/avaloniaui"
+﻿<v:ChromelessWindow xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -66,8 +66,8 @@
         <Path Width="14" Height="14" Data="{StaticResource Icons.Info}"/>
       </Border>
 
-      <Button Grid.Column="2" Width="0" Height="0" Click="OnMoveSelectedUp" HotKey="{OnPlatform Ctrl+Up, macOS=⌘+Up}"/>
-      <Button Grid.Column="3" Width="0" Height="0" Click="OnMoveSelectedDown" HotKey="{OnPlatform Ctrl+Down, macOS=⌘+Down}"/>
+      <Button Grid.Column="2" Width="0" Height="0" AutomationProperties.Name="{DynamicResource Text.InteractiveRebase.MoveUp}" Click="OnMoveSelectedUp" HotKey="{OnPlatform Ctrl+Up, macOS=⌘+Up}"/>
+      <Button Grid.Column="3" Width="0" Height="0" AutomationProperties.Name="{DynamicResource Text.InteractiveRebase.MoveDown}" Click="OnMoveSelectedDown" HotKey="{OnPlatform Ctrl+Down, macOS=⌘+Down}"/>
     </Grid>
 
     <!-- Body -->
@@ -137,7 +137,9 @@
                              HorizontalAlignment="Center"/>
 
                   <!-- Action -->
-                  <Button Grid.Column="1" Opacity="1" Margin="4,0,0,0" Padding="8,2" Background="Transparent" Click="OnShowActionsDropdownMenu">
+                  <Button Grid.Column="1" Opacity="1" Margin="4,0,0,0" Padding="8,2" Background="Transparent"
+                          ToolTip.Tip="{DynamicResource Text.InteractiveRebase.SelectAction}"
+                          AutomationProperties.Name="{DynamicResource Text.InteractiveRebase.SelectAction}" Click="OnShowActionsDropdownMenu">
                     <StackPanel Orientation="Horizontal">
                       <Ellipse Width="14" Height="14" Fill="{Binding Action, Converter={x:Static c:InteractiveRebaseActionConverters.ToIconBrush}}"/>
                       <TextBlock Margin="8,0" Text="{Binding Action, Converter={x:Static c:InteractiveRebaseActionConverters.ToName}}"/>
@@ -155,6 +157,8 @@
                             Classes="icon_button"
                             Margin="0,0,6,0" Padding="0"
                             IsVisible="{Binding ShowEditMessageButton, Mode=OneWay}"
+                            ToolTip.Tip="{DynamicResource Text.InteractiveRebase.EditMessage}"
+                            AutomationProperties.Name="{DynamicResource Text.InteractiveRebase.EditMessage}"
                             Click="OnOpenCommitMessageEditor">
                       <Path Width="14" Height="14" Margin="0,4,0,0" Data="{StaticResource Icons.Edit}"/>
                     </Button>

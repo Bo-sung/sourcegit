@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- The app under test is a WinExe; the test host has its own entry point. -->
+    <StartupObject></StartupObject>
+    <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Headless.XUnit" Version="11.3.22" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SourceGit.csproj" />
+  </ItemGroup>
+
+  <!-- The git-flow lifecycle test drives the real git-flow-next tool, which is a downloaded and
+       gitignored artifact. A plain `dotnet test` on a clean checkout therefore leaves the tests
+       tagged `Requires=git-flow-next` out and must pass without any download; an integration run
+       asks for them with `-p:GitFlowNextIntegration=true`, where a missing artifact fails clearly.
+       The dependency guard test has no trait and always runs. -->
+  <PropertyGroup Condition="'$(GitFlowNextIntegration)' != 'true'">
+    <VSTestTestCaseFilter>(Requires!=git-flow-next)</VSTestTestCaseFilter>
+  </PropertyGroup>
+
+  <!-- Native.OS selects "portable" data dirs when a `data` folder sits next to the
+       running executable. Creating it here keeps every preference/cache write of a
+       test run inside this output folder and never touches the installed user config. -->
+  <Target Name="CreatePortableDataDir" AfterTargets="Build">
+    <MakeDir Directories="$(OutDir)data" />
+  </Target>
+</Project>

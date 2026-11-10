@@ -1,5 +1,6 @@
 ﻿using Avalonia.Data.Converters;
 using Avalonia.Media;
+using SourceGit;
 
 namespace SourceGit.Converters
 {
@@ -20,7 +21,7 @@ namespace SourceGit.Converters
             });
 
         public static readonly FuncValueConverter<Models.InteractiveRebaseAction, string> ToName =
-            new(v => v.ToString());
+            new(v => App.Text($"InteractiveRebase.Action.{v}"));
 
         public static readonly FuncValueConverter<Models.InteractiveRebaseAction, bool> IsDrop =
             new(v => v == Models.InteractiveRebaseAction.Drop);

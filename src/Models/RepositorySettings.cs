@@ -4,7 +4,6 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 using Avalonia.Collections;
 
@@ -84,12 +83,13 @@ namespace SourceGit.Models
                 }
             }
 
-            // Serialize setting again to make sure there are no unnecessary whitespaces.
-            Task.Run(() =>
-            {
-                var formatted = JsonSerializer.Serialize(setting, JsonCodeGen.Default.RepositorySettings);
-                setting._orgHash = HashContent(formatted);
-            });
+            // Serialize the setting again to make sure there are no unnecessary whitespaces, and to
+            // stamp the hash of what is on disk right away. Stamping has to happen before Get
+            // returns: an edit that comes in right after loading would otherwise be compared to a
+            // hash that is still being computed in the background, and Save would see "nothing
+            // changed" and drop the change. Hashing is cheaper than the deserialization above.
+            var formatted = JsonSerializer.Serialize(setting, JsonCodeGen.Default.RepositorySettings);
+            setting._orgHash = HashContent(formatted);
 
             setting._file = fullpath;
             _cache.Add(fullpath, setting);

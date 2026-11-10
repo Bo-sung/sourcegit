@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -31,7 +31,7 @@ namespace SourceGit.ViewModels
                 return new ValidationResult("Missing runtime context to checkout branch as worktree!");
 
             if (string.IsNullOrEmpty(path))
-                return new ValidationResult("Worktree path is required!");
+                return new ValidationResult(App.Text("Validation.PathRequired"));
 
             var fullPath = Path.IsPathRooted(path) ? path : Path.Combine(creator._repo.FullPath, path);
             var info = new DirectoryInfo(fullPath);
@@ -39,11 +39,11 @@ namespace SourceGit.ViewModels
             {
                 var files = info.GetFiles();
                 if (files.Length > 0)
-                    return new ValidationResult("Given path is not empty!!!");
+                    return new ValidationResult(App.Text("Validation.PathNotEmpty"));
 
                 var folders = info.GetDirectories();
                 if (folders.Length > 0)
-                    return new ValidationResult("Given path is not empty!!!");
+                    return new ValidationResult(App.Text("Validation.PathNotEmpty"));
             }
 
             return ValidationResult.Success;

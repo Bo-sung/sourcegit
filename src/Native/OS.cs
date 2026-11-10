@@ -77,6 +77,17 @@ namespace SourceGit.Native
             private set;
         } = Models.GitFlowVersion.None;
 
+        /// <summary>
+        /// How many git-flow probe requests this process has made. The number is handed out where a
+        /// request is made, not where the probe finally runs, and that is what makes the newest request
+        /// own the answer: a probe that starts late carries an older number than one that was asked
+        /// later, so the late one cannot publish over the newer one.
+        /// </summary>
+        public static int GitFlowProbeRequests
+        {
+            get => Volatile.Read(ref _gitFlowProbeIndex);
+        }
+
         public static string CredentialHelper
         {
             get;
@@ -274,7 +285,7 @@ namespace SourceGit.Native
         {
             if (string.IsNullOrEmpty(ShellOrTerminal))
             {
-                Models.Notification.Send(workdir, "Terminal is not specified! Please confirm that the correct shell/terminal has been configured.", true);
+                Models.Notification.Send(workdir, App.Text("Terminal.NotSpecified"), true);
                 return;
             }
 
@@ -367,8 +378,8 @@ namespace SourceGit.Native
                         GitVersionString = GitVersionString.Substring(11).Trim();
                     }
 
-                    // Update git flow version in background to avoid blocking the UI
-                    Task.Run(UpdateGitFlowVersion);
+                    // Update git flow version in background to avoid blocking the UI.
+                    RequestGitFlowProbe(_gitExecutable);
                 }
             }
             catch
@@ -377,10 +388,42 @@ namespace SourceGit.Native
             }
         }
 
-        private static void UpdateGitFlowVersion()
+        /// <summary>The newest git-flow probe request's number; an answer may only publish while its
+        /// own number is still the newest one.</summary>
+        public static int GitFlowProbeGeneration => Volatile.Read(ref _gitFlowProbeIndex);
+
+        /// <summary>
+        /// Asks one git which git-flow it has, without waiting for the answer. The number a request
+        /// carries is taken here, where the request is made, and travels with it: if the number were
+        /// handed out when the task body finally started, a request that started earlier but was slow
+        /// to get a thread would come out as the newer one, and that is precisely the ordering this
+        /// guard is about (final review N-3). Asking also invalidates the previous answer, because an
+        /// answer describes the git it came from and that question is open again.
+        /// </summary>
+        /// <returns>The request's number, for a caller that wants to follow it.</returns>
+        internal static int RequestGitFlowProbe(string git)
         {
+            var generation = Interlocked.Increment(ref _gitFlowProbeIndex);
+            GitFlowVersion = Models.GitFlowVersion.None;
+            Task.Run(() => PublishGitFlowProbe(generation, GitFlowProbeRun(git)));
+            return generation;
+        }
+
+        /// <summary>
+        /// How the probe finds its answer. The product asks the git executable; a scheduling test puts
+        /// its own answer source here so it can decide which request answers first - a real git cannot
+        /// be asked to answer out of order on demand, so without this seam the ordering rule would only
+        /// ever be tested by luck. Nothing else about the request changes.
+        /// </summary>
+        internal static Func<string, Models.GitFlowVersion> GitFlowProbeRun = RunGitFlowProbe;
+
+        /// <summary>Runs <c>git flow version</c> for one executable and names what it found.</summary>
+        private static Models.GitFlowVersion RunGitFlowProbe(string git)
+        {
+            var found = Models.GitFlowVersion.None;
+
             var start = new ProcessStartInfo();
-            start.FileName = _gitExecutable;
+            start.FileName = git;
             start.Arguments = "flow version";
             start.UseShellExecute = false;
             start.CreateNoWindow = true;
@@ -388,8 +431,6 @@ namespace SourceGit.Native
             start.RedirectStandardError = true;
             start.StandardOutputEncoding = Encoding.UTF8;
             start.StandardErrorEncoding = Encoding.UTF8;
-
-            GitFlowVersion = Models.GitFlowVersion.None;
 
             try
             {
@@ -399,15 +440,34 @@ namespace SourceGit.Native
                 if (proc.ExitCode == 0 && !string.IsNullOrWhiteSpace(rs))
                 {
                     if (rs.Contains("git-flow-next", StringComparison.Ordinal))
-                        GitFlowVersion = Models.GitFlowVersion.Next;
+                        found = Models.GitFlowVersion.Next;
                     else
-                        GitFlowVersion = Models.GitFlowVersion.Legacy;
+                        found = Models.GitFlowVersion.Legacy;
                 }
             }
             catch
             {
-                // Ignore errors
+                // git itself is there; only git flow is missing or unreadable.
             }
+
+            return found;
+        }
+
+        /// <summary>
+        /// Publishes an answer and says whether it counted. Two requests can be in flight when the git
+        /// executable is set twice in a row (the tests hide and show the dependency that way, and a
+        /// user who picks another git does it too), and the thread pool does not keep their order. An
+        /// answer whose request is no longer the newest is dropped, because it describes a git this
+        /// client has moved on from - showing it would advertise a git-flow the git in use does not
+        /// have, or hide one it does have.
+        /// </summary>
+        internal static bool PublishGitFlowProbe(int generation, Models.GitFlowVersion found)
+        {
+            if (generation != Volatile.Read(ref _gitFlowProbeIndex))
+                return false;
+
+            GitFlowVersion = found;
+            return true;
         }
 
         [GeneratedRegex(@"^git version[\s\w]*(\d+)\.(\d+)[\.\-](\d+).*$")]
@@ -415,6 +475,7 @@ namespace SourceGit.Native
 
         private static IBackend _backend = null;
         private static string _gitExecutable = string.Empty;
+        private static int _gitFlowProbeIndex = 0;
         private static bool _enableSystemWindowFrame = false;
     }
 }

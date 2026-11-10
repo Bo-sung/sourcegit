@@ -1,0 +1,166 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SourceGit.ViewModels"
+             xmlns:c="using:SourceGit.Converters"
+             mc:Ignorable="d" d:DesignWidth="260" d:DesignHeight="160"
+             x:Class="SourceGit.Views.ClassicNavigation"
+             x:DataType="vm:Repository"
+             MaxHeight="180">
+  <!--
+    Workspace navigation for the opt-in Classic layout (Docs/SOURCEGIT_CLASSIC_UX_IMPLEMENTATION_PLAN.md).
+    The DataContext is the existing ViewModels.Repository, inherited from Repository.axaml.
+    Item order follows SourceTree habits: File Status, History, Stashes; the code-behind maps the
+    ListBox indexes onto the existing SelectedViewIndex contract (File Status -> 1, History -> 0, Stashes -> 2).
+    No hotkeys are declared here: Ctrl+1/2/3 keep working through the original Launcher handlers and the
+    selection is synchronized back from ViewModels.Repository.PropertyChanged.
+  -->
+  <Grid RowDefinitions="Auto,Auto" Margin="4,4,4,2">
+    <!-- Compact WORKSPACE header with the existing repository-configure dialog entry -->
+    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Height="24" Margin="2,0,0,0">
+      <TextBlock Grid.Column="0"
+                 Classes="group_header_label"
+                 Text="{DynamicResource Text.Classic.Workspace}"
+                 VerticalAlignment="Center"
+                 AutomationProperties.Name="{DynamicResource Text.Classic.Navigation}"/>
+      <!--
+        The two repo-scoped launchers live in the original layout's "open with external tools" menu, whose
+        flyout is a separate popup surface that accessibility clients (and screen readers over the UIA
+        provider) do not always expose. The Classic rail keeps the SAME Native.OS calls on real in-window
+        buttons so keyboard-free users can reach a terminal or the file browser for this repository.
+      -->
+      <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+        <Button Classes="icon_button"
+                Width="22" Height="22"
+                Margin="0,0,2,0"
+                Click="OnOpenInFileManager"
+                ToolTip.Tip="{DynamicResource Text.Repository.Explore}"
+                AutomationProperties.Name="{DynamicResource Text.Repository.Explore}">
+          <Path Width="13" Height="13" Data="{StaticResource Icons.Explore}" Fill="{DynamicResource Brush.FG2}"/>
+        </Button>
+        <Button Classes="icon_button"
+                Width="22" Height="22"
+                Margin="0,0,2,0"
+                Click="OnOpenTerminal"
+                ToolTip.Tip="{DynamicResource Text.Repository.Terminal}"
+                AutomationProperties.Name="{DynamicResource Text.Repository.Terminal}">
+          <Path Width="13" Height="13" Data="{StaticResource Icons.Terminal}" Fill="{DynamicResource Brush.FG2}"/>
+        </Button>
+        <Button Classes="icon_button"
+                Width="22" Height="22"
+                Margin="0,0,2,0"
+                Click="OnOpenConfigure"
+                ToolTip.Tip="{DynamicResource Text.Configure}"
+                AutomationProperties.Name="{DynamicResource Text.Configure}">
+          <Path Width="13" Height="13" Data="{StaticResource Icons.Settings}" Fill="{DynamicResource Brush.FG2}"/>
+        </Button>
+      </StackPanel>
+    </Grid>
+
+    <ListBox Grid.Row="1"
+             x:Name="NavList"
+             Background="Transparent"
+             BorderThickness="0"
+             SelectionChanged="OnListSelectionChanged">
+      <ListBox.Styles>
+        <Style Selector="ListBoxItem">
+          <Setter Property="Height" Value="34"/>
+          <Setter Property="Margin" Value="0,1"/>
+          <Setter Property="Padding" Value="6,0"/>
+          <Setter Property="BorderThickness" Value="0"/>
+          <Setter Property="CornerRadius" Value="4"/>
+          <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="Background" Value="#18888888"/>
+        </Style>
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="Background" Value="{DynamicResource Brush.AccentHovered}"/>
+        </Style>
+        <Style Selector="ListBoxItem:selected TextBlock">
+          <Setter Property="Foreground" Value="{DynamicResource Brush.FG1}"/>
+        </Style>
+        <Style Selector="ListBoxItem Path.icon">
+          <Setter Property="Width" Value="15"/>
+          <Setter Property="Height" Value="15"/>
+          <Setter Property="Fill" Value="{DynamicResource Brush.FG1}"/>
+          <Setter Property="HorizontalAlignment" Value="Center"/>
+          <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+      </ListBox.Styles>
+
+      <!-- [0] File Status -> SelectedViewIndex 1 -->
+      <ListBoxItem IsEnabled="{Binding !IsBare}"
+                   AutomationProperties.Name="{DynamicResource Text.Classic.FileStatus}">
+        <ToolTip.Tip>
+          <TextBlock>
+            <Run Text="{DynamicResource Text.Classic.FileStatus}" Foreground="{DynamicResource Brush.FG1}"/>
+            <Run Text=" "/>
+            <!-- First row of this navigation, so the first page shortcut, matching SourceTree. -->
+            <Run Text="{OnPlatform Ctrl+1, macOS=⌘+1}" FontSize="11" Foreground="{DynamicResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"/>
+          </TextBlock>
+        </ToolTip.Tip>
+        <Grid ColumnDefinitions="20,*,Auto">
+          <Path Grid.Column="0" Classes="icon" Data="{StaticResource Icons.Changes}"/>
+          <TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Text.Classic.FileStatus}"/>
+          <Border Grid.Column="2"
+                  Height="14" Padding="5,0"
+                  Margin="0,0,4,0"
+                  CornerRadius="7"
+                  VerticalAlignment="Center"
+                  Background="{DynamicResource Brush.Accent}"
+                  IsVisible="{Binding LocalChangesCount, Mode=OneWay, Converter={x:Static c:IntConverters.IsGreaterThanZero}}">
+            <TextBlock Text="{Binding LocalChangesCount, Mode=OneWay, Converter={x:Static c:IntConverters.ToBadgeWithLimit}}"
+                       Foreground="White"
+                       FontFamily="{DynamicResource Fonts.Monospace}"
+                       FontSize="10"/>
+          </Border>
+        </Grid>
+      </ListBoxItem>
+
+      <!-- [1] History -> SelectedViewIndex 0 -->
+      <ListBoxItem AutomationProperties.Name="{DynamicResource Text.Classic.History}">
+        <ToolTip.Tip>
+          <TextBlock>
+            <Run Text="{DynamicResource Text.Classic.History}" Foreground="{DynamicResource Brush.FG1}"/>
+            <Run Text=" "/>
+            <Run Text="{OnPlatform Ctrl+2, macOS=⌘+2}" FontSize="11" Foreground="{DynamicResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"/>
+          </TextBlock>
+        </ToolTip.Tip>
+        <Grid ColumnDefinitions="20,*">
+          <Path Grid.Column="0" Classes="icon" Data="{StaticResource Icons.Histories}"/>
+          <TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Text.Classic.History}"/>
+        </Grid>
+      </ListBoxItem>
+
+      <!-- [2] Stashes -> SelectedViewIndex 2 -->
+      <ListBoxItem IsEnabled="{Binding !IsBare}"
+                   AutomationProperties.Name="{DynamicResource Text.Stashes}">
+        <ToolTip.Tip>
+          <TextBlock>
+            <Run Text="{DynamicResource Text.Stashes}" Foreground="{DynamicResource Brush.FG1}"/>
+            <Run Text=" "/>
+            <Run Text="{OnPlatform Ctrl+3, macOS=⌘+3}" FontSize="11" Foreground="{DynamicResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"/>
+          </TextBlock>
+        </ToolTip.Tip>
+        <Grid ColumnDefinitions="20,*,Auto">
+          <Path Grid.Column="0" Classes="icon" Data="{StaticResource Icons.Stashes}"/>
+          <TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Text.Stashes}"/>
+          <Border Grid.Column="2"
+                  Height="14" Padding="5,0"
+                  Margin="0,0,4,0"
+                  CornerRadius="7"
+                  VerticalAlignment="Center"
+                  Background="{DynamicResource Brush.Accent}"
+                  IsVisible="{Binding StashesCount, Mode=OneWay, Converter={x:Static c:IntConverters.IsGreaterThanZero}}">
+            <TextBlock Text="{Binding StashesCount, Mode=OneWay, Converter={x:Static c:IntConverters.ToBadgeWithLimit}}"
+                       Foreground="White"
+                       FontFamily="{DynamicResource Fonts.Monospace}"
+                       FontSize="10"/>
+          </Border>
+        </Grid>
+      </ListBoxItem>
+    </ListBox>
+  </Grid>
+</UserControl>

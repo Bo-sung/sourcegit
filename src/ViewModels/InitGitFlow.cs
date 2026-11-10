@@ -103,6 +103,9 @@ namespace SourceGit.ViewModels
 
         public override async Task<bool> Sure()
         {
+            if (!GitFlowAvailability.GuardOrNotify(_repo))
+                return false;
+
             using var lockWatcher = _repo.LockWatcher();
             ProgressDescription = "Init git-flow ...";
 

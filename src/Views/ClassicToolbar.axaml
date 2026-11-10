@@ -1,0 +1,186 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SourceGit.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="48"
+             x:Class="SourceGit.Views.ClassicToolbar"
+             x:DataType="vm:Repository"
+             MinHeight="48" MaxHeight="56">
+  <!--
+    Labelled command bar for the opt-in Classic layout (Docs/SOURCEGIT_CLASSIC_UX_IMPLEMENTATION_PLAN.md).
+    The DataContext is the existing ViewModels.Repository, inherited from the host page.
+    This control owns no Git logic: every button forwards to an existing repository method or popup VM.
+    It declares no HotKey, so no global shortcut is ever registered twice by this component.
+  -->
+  <UserControl.Styles>
+    <Style Selector="Button.classic">
+      <Setter Property="Height" Value="42"/>
+      <Setter Property="MinWidth" Value="52"/>
+      <!-- Bounded so a long translation can never stretch the bar past the window. -->
+      <Setter Property="MaxWidth" Value="112"/>
+      <Setter Property="Margin" Value="2,0"/>
+      <Setter Property="Padding" Value="8,3"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+      <Setter Property="CornerRadius" Value="4"/>
+    </Style>
+    <Style Selector="Button.classic Path">
+      <Setter Property="Width" Value="14"/>
+      <Setter Property="Height" Value="14"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="Button.classic TextBlock">
+      <Setter Property="FontSize" Value="11"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="TextAlignment" Value="Center"/>
+      <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+      <Setter Property="MaxWidth" Value="88"/>
+    </Style>
+  </UserControl.Styles>
+
+  <Grid ColumnDefinitions="Auto,*,Auto" Margin="6,0">
+    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+      <Button x:Name="BtnCommit"
+              Classes="icon_button classic"
+              Click="OnCommit"
+              AutomationProperties.Name="{DynamicResource Text.WorkingCopy.Commit}">
+        <ToolTip.Tip>
+          <StackPanel Orientation="Vertical">
+            <TextBlock Text="{DynamicResource Text.WorkingCopy.Commit}"/>
+            <TextBlock Classes="small italic" Margin="0,4,0,0" Text="{DynamicResource Text.WorkingCopy}" Foreground="{DynamicResource Brush.FG2}"/>
+          </StackPanel>
+        </ToolTip.Tip>
+
+        <StackPanel Orientation="Vertical" Spacing="2">
+          <Path Data="{StaticResource Icons.Commit}"/>
+          <TextBlock Text="{DynamicResource Text.WorkingCopy.Commit}"/>
+        </StackPanel>
+      </Button>
+
+      <Rectangle Width="1" Height="20" Margin="6,0" VerticalAlignment="Center" Fill="{DynamicResource Brush.Border2}"/>
+
+      <Button x:Name="BtnPull"
+              Classes="icon_button classic"
+              Click="OnPull"
+              AutomationProperties.Name="{DynamicResource Text.Pull}">
+        <ToolTip.Tip>
+          <TextBlock Text="{DynamicResource Text.Pull}"/>
+        </ToolTip.Tip>
+
+        <StackPanel Orientation="Vertical" Spacing="2">
+          <Path Data="{StaticResource Icons.Pull}"/>
+          <TextBlock Text="{DynamicResource Text.Pull}"/>
+        </StackPanel>
+      </Button>
+
+      <Button x:Name="BtnPush"
+              Classes="icon_button classic"
+              Click="OnPush"
+              AutomationProperties.Name="{DynamicResource Text.Push}">
+        <ToolTip.Tip>
+          <TextBlock Text="{DynamicResource Text.Push}"/>
+        </ToolTip.Tip>
+
+        <StackPanel Orientation="Vertical" Spacing="2">
+          <Path Data="{StaticResource Icons.Push}"/>
+          <TextBlock Text="{DynamicResource Text.Push}"/>
+        </StackPanel>
+      </Button>
+
+      <Button x:Name="BtnFetch"
+              Classes="icon_button classic"
+              Click="OnFetch"
+              AutomationProperties.Name="{DynamicResource Text.Fetch}">
+        <ToolTip.Tip>
+          <TextBlock Text="{DynamicResource Text.Fetch}"/>
+        </ToolTip.Tip>
+
+        <StackPanel Orientation="Vertical" Spacing="2">
+          <Path Data="{StaticResource Icons.Fetch}"/>
+          <TextBlock Text="{DynamicResource Text.Fetch}"/>
+        </StackPanel>
+      </Button>
+
+      <Rectangle Width="1" Height="20" Margin="6,0" VerticalAlignment="Center" Fill="{DynamicResource Brush.Border2}"/>
+
+      <Button x:Name="BtnBranch"
+              Classes="icon_button classic"
+              Click="OnBranch"
+              AutomationProperties.Name="{DynamicResource Text.Repository.NewBranch}">
+        <ToolTip.Tip>
+          <TextBlock Text="{DynamicResource Text.Repository.NewBranch}"/>
+        </ToolTip.Tip>
+
+        <StackPanel Orientation="Vertical" Spacing="2">
+          <Path Data="{StaticResource Icons.Branch.Add}"/>
+          <TextBlock Text="{DynamicResource Text.Repository.NewBranch}"/>
+        </StackPanel>
+      </Button>
+
+      <Button x:Name="BtnMerge"
+              Classes="icon_button classic"
+              Click="OnMerge"
+              AutomationProperties.Name="{DynamicResource Text.Merge}">
+        <ToolTip.Tip>
+          <TextBlock Text="{DynamicResource Text.Merge}"/>
+        </ToolTip.Tip>
+
+        <StackPanel Orientation="Vertical" Spacing="2">
+          <Path Data="{StaticResource Icons.Merge}"/>
+          <TextBlock Text="{DynamicResource Text.Merge}"/>
+        </StackPanel>
+      </Button>
+
+      <Button x:Name="BtnStash"
+              Classes="icon_button classic"
+              Click="OnStash"
+              AutomationProperties.Name="{DynamicResource Text.Stash}">
+        <ToolTip.Tip>
+          <TextBlock Text="{DynamicResource Text.Stash}"/>
+        </ToolTip.Tip>
+
+        <StackPanel Orientation="Vertical" Spacing="2">
+          <Path Data="{StaticResource Icons.Stashes.Add}"/>
+          <TextBlock Text="{DynamicResource Text.Stash}"/>
+        </StackPanel>
+      </Button>
+
+      <Button x:Name="BtnTag"
+              Classes="icon_button classic"
+              Click="OnTag"
+              AutomationProperties.Name="{DynamicResource Text.Repository.Tags.Add}">
+        <ToolTip.Tip>
+          <TextBlock Text="{DynamicResource Text.Repository.Tags.Add}"/>
+        </ToolTip.Tip>
+
+        <StackPanel Orientation="Vertical" Spacing="2">
+          <Path Data="{StaticResource Icons.Tag.Add}"/>
+          <TextBlock Text="{DynamicResource Text.Repository.Tags.Add}"/>
+        </StackPanel>
+      </Button>
+    </StackPanel>
+
+    <!--
+      Read-only HEAD indicator, reusing the original toolbar's branch visuals. The fixed Auto,* columns plus
+      MaxWidth keep a long branch name from growing the bar; the full name stays in the ToolTip.
+    -->
+    <Grid Grid.Column="2"
+          ColumnDefinitions="Auto,*"
+          MaxWidth="240"
+          Margin="12,0,4,0"
+          VerticalAlignment="Center">
+      <Path Grid.Column="0"
+            Width="13" Height="13"
+            VerticalAlignment="Center"
+            Data="{StaticResource Icons.Branch}"
+            Fill="{DynamicResource Brush.FG2}"/>
+      <TextBlock Grid.Column="1"
+                 Margin="6,0,0,0"
+                 VerticalAlignment="Center"
+                 TextTrimming="CharacterEllipsis"
+                 ToolTip.Tip="{Binding CurrentBranch?.FullName, TargetNullValue='--', Mode=OneWay}"
+                 Text="{Binding CurrentBranch?.Name, TargetNullValue='--', Mode=OneWay}"/>
+    </Grid>
+  </Grid>
+</UserControl>

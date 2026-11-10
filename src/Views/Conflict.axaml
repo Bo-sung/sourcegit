@@ -59,13 +59,13 @@
         </Border>
 
         <StackPanel Margin="0,8,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
-          <Button Classes="flat" Margin="0,0,0,0" Click="OnUseTheirs">
+          <Button Classes="flat" Margin="0,0,0,0" Click="OnUseTheirs" AutomationProperties.Name="{DynamicResource Text.WorkingCopy.Conflicts.UseTheirs}">
             <StackPanel Orientation="Horizontal">
               <Path Width="12" Height="12" Data="{StaticResource Icons.Incoming}"/>
               <TextBlock Margin="6,0,0,0" Text="{DynamicResource Text.WorkingCopy.Conflicts.UseTheirs}" VerticalAlignment="Center"/>
             </StackPanel>
           </Button>
-          <Button Classes="flat" Margin="8,0,0,0" Click="OnUseMine">
+          <Button Classes="flat" Margin="8,0,0,0" Click="OnUseMine" AutomationProperties.Name="{DynamicResource Text.WorkingCopy.Conflicts.UseMine}">
             <StackPanel Orientation="Horizontal">
               <Path Width="12" Height="12" Data="{StaticResource Icons.Local}"/>
               <TextBlock Margin="6,0,0,0" Text="{DynamicResource Text.WorkingCopy.Conflicts.UseMine}" VerticalAlignment="Center"/>
@@ -74,7 +74,8 @@
           <SplitButton Height="28"
                        Margin="8,0,0,0" Padding="8,0"
                        Click="OnMerge"
-                       IsVisible="{Binding State, Mode=OneWay, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static m:ConflictFileState.UnmergedText}}">
+                       IsVisible="{Binding State, Mode=OneWay, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static m:ConflictFileState.UnmergedText}}"
+                       AutomationProperties.Name="{DynamicResource Text.WorkingCopy.Conflicts.Merge}">
             <SplitButton.Styles>
               <Style Selector="SplitButton">
                 <Setter Property="MinHeight" Value="24"/>
@@ -84,6 +85,7 @@
                       <Button x:Name="PART_PrimaryButton"
                               Grid.Column="0"
                               Classes="flat primary"
+                              AutomationProperties.Name="{DynamicResource Text.WorkingCopy.Conflicts.Merge}"
                               MinWidth="32"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch"
@@ -134,7 +136,8 @@
             <SplitButton.Flyout>
               <MenuFlyout Placement="BottomEdgeAlignedLeft">
                 <MenuItem Header="{DynamicResource Text.WorkingCopy.Conflicts.MergeExternal}"
-                          Click="OnMergeExternal">
+                          Click="OnMergeExternal"
+                          AutomationProperties.Name="{DynamicResource Text.WorkingCopy.Conflicts.MergeExternal}">
                   <MenuItem.Icon>
                     <Path Width="12" Height="12" Data="{StaticResource Icons.OpenWith}"/>
                   </MenuItem.Icon>

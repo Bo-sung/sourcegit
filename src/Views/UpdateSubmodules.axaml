@@ -68,5 +68,113 @@
                 IsChecked="{Binding EnableRecursive, Mode=TwoWay}"
                 ToolTip.Tip="--recursive"/>
     </Grid>
+
+    <!-- A22: exact update targets and what each option changes. Presentation only: the executed
+         command and its flags are unchanged, and the statuses shown are the ones already loaded
+         in Repository.Submodules. -->
+    <Border Margin="0,10,0,0" Padding="8,6" CornerRadius="4"
+            BorderThickness="1" BorderBrush="{DynamicResource Brush.Border2}"
+            Background="Transparent"
+            IsVisible="{Binding IsClassicLayoutActive, Source={x:Static vm:Preferences.Instance}}">
+      <StackPanel Orientation="Vertical" Spacing="2">
+        <Grid ColumnDefinitions="120,*" RowDefinitions="Auto">
+          <TextBlock Grid.Row="0" Grid.Column="0" FontSize="12" Foreground="{DynamicResource Brush.FG2}"
+                     HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"
+                     Text="{DynamicResource Text.Classic.Submodule.Targets}"/>
+          <Panel Grid.Row="0" Grid.Column="1">
+            <TextBlock FontSize="12" TextWrapping="Wrap" Classes="bold"
+                       VerticalAlignment="Center"
+                       IsVisible="{Binding HasTargets, Mode=OneWay}"
+                       Text="{Binding TargetPaths, Mode=OneWay}"/>
+            <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="DarkOrange"
+                       VerticalAlignment="Center"
+                       IsVisible="{Binding HasTargets, Mode=OneWay, Converter={x:Static BoolConverters.Not}}"
+                       Text="{DynamicResource Text.Classic.Submodule.NoTarget}"/>
+          </Panel>
+        </Grid>
+
+        <StackPanel Orientation="Vertical" Spacing="2" Margin="0,4,0,0"
+                    IsVisible="{Binding HasDirtyTargets, Mode=OneWay}">
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="DarkOrange"
+                     Text="{DynamicResource Text.Classic.Submodule.WarnDirty}"/>
+
+          <Grid ColumnDefinitions="120,*" RowDefinitions="Auto"
+                IsVisible="{Binding HasModifiedTargets, Mode=OneWay}">
+            <TextBlock Grid.Row="0" Grid.Column="0" FontSize="11" Foreground="{DynamicResource Brush.FG2}"
+                       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"
+                       Text="{DynamicResource Text.Classic.Submodule.WarnModified}"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" FontSize="11" TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       Text="{Binding ModifiedTargetPaths, Mode=OneWay}"/>
+          </Grid>
+
+          <Grid ColumnDefinitions="120,*" RowDefinitions="Auto"
+                IsVisible="{Binding HasUnmergedTargets, Mode=OneWay}">
+            <TextBlock Grid.Row="0" Grid.Column="0" FontSize="11" Foreground="{DynamicResource Brush.FG2}"
+                       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"
+                       Text="{DynamicResource Text.Classic.Submodule.WarnUnmerged}"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" FontSize="11" TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       Text="{Binding UnmergedTargetPaths, Mode=OneWay}"/>
+          </Grid>
+        </StackPanel>
+
+        <!-- Local-path URLs are fetched through git's `file` transport, which is blocked for submodule
+             clones by default. Warn before the run so the failure text is not a mystery. Nothing here
+             changes the executed command or grants any transport allowance. -->
+        <StackPanel Orientation="Vertical" Spacing="2" Margin="0,4,0,0"
+                    IsVisible="{Binding HasLocalURLTargets, Mode=OneWay}">
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="DarkOrange"
+                     Text="{DynamicResource Text.Classic.Submodule.WarnLocalURL}"/>
+
+          <Grid ColumnDefinitions="120,*" RowDefinitions="Auto">
+            <TextBlock Grid.Row="0" Grid.Column="0" FontSize="11" Foreground="{DynamicResource Brush.FG2}"
+                       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"
+                       Text="{DynamicResource Text.Classic.Submodule.WarnLocalURLPaths}"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" FontSize="11" TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       Text="{Binding LocalURLTargetPaths, Mode=OneWay}"/>
+          </Grid>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Spacing="2" Margin="0,4,0,0">
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     IsVisible="{Binding EnableRemote, Mode=OneWay, Converter={x:Static BoolConverters.Not}}"
+                     Text="{DynamicResource Text.Classic.Submodule.ModeRecorded}"/>
+
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     IsVisible="{Binding EnableRemote, Mode=OneWay}"
+                     Text="{DynamicResource Text.Classic.Submodule.ModeRemote}"/>
+
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     Text="{DynamicResource Text.Classic.Submodule.InitOn}">
+            <TextBlock.IsVisible>
+              <MultiBinding Converter="{x:Static BoolConverters.And}">
+                <Binding Path="IsEnableInitVisible" Mode="OneWay"/>
+                <Binding Path="EnableInit" Mode="OneWay"/>
+              </MultiBinding>
+            </TextBlock.IsVisible>
+          </TextBlock>
+
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     Text="{DynamicResource Text.Classic.Submodule.InitOff}">
+            <TextBlock.IsVisible>
+              <MultiBinding Converter="{x:Static BoolConverters.And}">
+                <Binding Path="IsEnableInitVisible" Mode="OneWay"/>
+                <Binding Path="EnableInit" Mode="OneWay" Converter="{x:Static BoolConverters.Not}"/>
+              </MultiBinding>
+            </TextBlock.IsVisible>
+          </TextBlock>
+
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     IsVisible="{Binding EnableRecursive, Mode=OneWay}"
+                     Text="{DynamicResource Text.Classic.Submodule.RecursiveOn}"/>
+
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     IsVisible="{Binding EnableRecursive, Mode=OneWay, Converter={x:Static BoolConverters.Not}}"
+                     Text="{DynamicResource Text.Classic.Submodule.RecursiveOff}"/>
+        </StackPanel>
+      </StackPanel>
+    </Border>
   </StackPanel>
 </UserControl>

@@ -241,13 +241,26 @@ namespace SourceGit.Views
                 var menu = new ContextMenu();
                 menu.Placement = PlacementMode.BottomEdgeAlignedLeft;
 
+                // A11: the configuration can always be inspected and edited here, with or without a
+                // git-flow dependency, and without touching a branch.
+                var settings = new MenuItem();
+                settings.Header = App.Text("GitFlow.Settings");
+                settings.Icon = this.CreateMenuIcon("Icons.GitFlow");
+                settings.Click += (_, e) =>
+                {
+                    if (repo.CanCreatePopup())
+                        repo.ShowPopup(new ViewModels.GitFlowSettings(repo));
+                    e.Handled = true;
+                };
+
                 if (repo.IsGitFlowEnabled())
                 {
                     var startFeature = new MenuItem();
                     startFeature.Header = App.Text("GitFlow.StartFeature");
                     startFeature.Click += (_, e) =>
                     {
-                        if (repo.CanCreatePopup())
+                        // A10 preflight: explain a missing/un-detected git-flow dependency instead of opening the popup.
+                        if (ViewModels.GitFlowAvailability.GuardOrNotify(repo) && repo.CanCreatePopup())
                             repo.ShowPopup(new ViewModels.GitFlowStart(repo, Models.GitFlowBranchType.Feature));
                         e.Handled = true;
                     };
@@ -256,7 +269,8 @@ namespace SourceGit.Views
                     startRelease.Header = App.Text("GitFlow.StartRelease");
                     startRelease.Click += (_, e) =>
                     {
-                        if (repo.CanCreatePopup())
+                        // A10 preflight: explain a missing/un-detected git-flow dependency instead of opening the popup.
+                        if (ViewModels.GitFlowAvailability.GuardOrNotify(repo) && repo.CanCreatePopup())
                             repo.ShowPopup(new ViewModels.GitFlowStart(repo, Models.GitFlowBranchType.Release));
                         e.Handled = true;
                     };
@@ -265,7 +279,8 @@ namespace SourceGit.Views
                     startHotfix.Header = App.Text("GitFlow.StartHotfix");
                     startHotfix.Click += (_, e) =>
                     {
-                        if (repo.CanCreatePopup())
+                        // A10 preflight: explain a missing/un-detected git-flow dependency instead of opening the popup.
+                        if (ViewModels.GitFlowAvailability.GuardOrNotify(repo) && repo.CanCreatePopup())
                             repo.ShowPopup(new ViewModels.GitFlowStart(repo, Models.GitFlowBranchType.Hotfix));
                         e.Handled = true;
                     };
@@ -282,29 +297,45 @@ namespace SourceGit.Views
                         finish.Icon = this.CreateMenuIcon("Icons.GitFlow.Finish");
                         finish.Click += (_, e) =>
                         {
-                            if (repo.CanCreatePopup())
+                            // A10 preflight: explain a missing/un-detected git-flow dependency instead of opening the popup.
+                            if (ViewModels.GitFlowAvailability.GuardOrNotify(repo) && repo.CanCreatePopup())
                                 repo.ShowPopup(new ViewModels.GitFlowFinish(repo, repo.CurrentBranch, type));
                             e.Handled = true;
                         };
                         menu.Items.Add(new MenuItem() { Header = "-" });
                         menu.Items.Add(finish);
                     }
+
+                    menu.Items.Add(new MenuItem() { Header = "-" });
+                    menu.Items.Add(settings);
                 }
                 else
                 {
                     var init = new MenuItem();
                     init.Header = App.Text("GitFlow.Init");
                     init.Icon = this.CreateMenuIcon("Icons.Init");
+
+                    // The configuration already exists and only a base branch is missing: re-running
+                    // init would add branches and rewrite the keys, so point at the settings editor.
+                    if (repo.GitFlow is { IsValid: true })
+                        ToolTip.SetTip(init, App.Text("GitFlow.InitOverwriteWarning"));
+
                     init.Click += (_, e) =>
                     {
-                        if (repo.CurrentBranch == null)
-                            repo.SendNotification("Git flow init failed: No branch found!!!", true);
-                        else if (repo.CanCreatePopup())
-                            repo.ShowPopup(new ViewModels.InitGitFlow(repo));
+                        // A10 preflight: never open the init popup without a detected git-flow dependency.
+                        if (ViewModels.GitFlowAvailability.GuardOrNotify(repo))
+                        {
+                            if (repo.CurrentBranch == null)
+                                repo.SendNotification("Git flow init failed: No branch found!!!", true);
+                            else if (repo.CanCreatePopup())
+                                repo.ShowPopup(new ViewModels.InitGitFlow(repo));
+                        }
 
                         e.Handled = true;
                     };
                     menu.Items.Add(init);
+                    menu.Items.Add(new MenuItem() { Header = "-" });
+                    menu.Items.Add(settings);
                 }
 
                 menu.Open(control);

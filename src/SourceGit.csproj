@@ -69,6 +69,14 @@
     <TrimmerRootAssembly Include="Avalonia.Themes.Fluent" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- The test project drives the git-flow probe's scheduling with an answer source it controls, so
+         a request-ordering rule that no real git can be made to produce on demand stays testable. -->
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>SourceGit.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <Target BeforeTargets="GetAssemblyAttributes" Name="GenVersionInfo">
     <Exec Command="git describe --abbrev=8 --dirty" ConsoleToMsBuild="True" IgnoreExitCode="true">
       <Output PropertyName="FriendlyVersion" TaskParameter="ConsoleOutput" />

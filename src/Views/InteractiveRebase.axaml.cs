@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Automation;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -399,17 +400,17 @@ namespace SourceGit.Views
             flyout.Placement = PlacementMode.BottomEdgeAlignedLeft;
             flyout.VerticalOffset = -4;
 
-            CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Pick, Brushes.Green, "Use this commit", "P");
-            CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Edit, Brushes.Orange, "Stop for amending", "E");
-            CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Reword, Brushes.Orange, "Edit the commit message", "R");
+            CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Pick, Brushes.Green, "P");
+            CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Edit, Brushes.Orange, "E");
+            CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Reword, Brushes.Orange, "R");
 
             if (item.CanSquashOrFixup)
             {
-                CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Squash, Brushes.LightGray, "Meld into previous commit", "S");
-                CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Fixup, Brushes.LightGray, "Like 'Squash' but discard message", "F");
+                CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Squash, Brushes.LightGray, "S");
+                CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Fixup, Brushes.LightGray, "F");
             }
 
-            CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Drop, Brushes.Red, "Remove commit", "D");
+            CreateActionMenuItem(flyout, item, Models.InteractiveRebaseAction.Drop, Brushes.Red, "D");
 
             flyout.ShowAt(button);
             e.Handled = true;
@@ -448,14 +449,16 @@ namespace SourceGit.Views
             Close();
         }
 
-        private void CreateActionMenuItem(MenuFlyout flyout, ViewModels.InteractiveRebaseItem item, Models.InteractiveRebaseAction action, IBrush iconBrush, string desc, string hotkey)
+        private void CreateActionMenuItem(MenuFlyout flyout, ViewModels.InteractiveRebaseItem item, Models.InteractiveRebaseAction action, IBrush iconBrush, string hotkey)
         {
+            var name = App.Text($"InteractiveRebase.Action.{action}");
+            var desc = App.Text($"InteractiveRebase.ActionDesc.{action}");
             var header = new Grid()
             {
                 ColumnDefinitions =
                 [
-                    new ColumnDefinition(64, GridUnitType.Pixel),
-                    new ColumnDefinition(240, GridUnitType.Pixel),
+                    new ColumnDefinition(200, GridUnitType.Pixel),
+                    new ColumnDefinition(GridLength.Auto),
                 ],
                 Children =
                 {
@@ -463,7 +466,7 @@ namespace SourceGit.Views
                     {
                         [Grid.ColumnProperty] = 0,
                         Margin = new Thickness(4, 0),
-                        Text = action.ToString()
+                        Text = name
                     },
                     new TextBlock()
                     {
@@ -476,6 +479,7 @@ namespace SourceGit.Views
 
             var menuItem = new MenuItem();
             menuItem.Icon = new Ellipse() { Width = 14, Height = 14, Fill = iconBrush };
+            menuItem.SetValue(AutomationProperties.NameProperty, name + " - " + desc);
             menuItem.Header = header;
             menuItem.Tag = hotkey;
             menuItem.Click += (_, _) => ChangeItemsAction(item, action);

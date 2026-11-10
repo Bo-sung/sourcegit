@@ -90,11 +90,20 @@
                    Margin="0,8"/>
 
         <Grid RowDefinitions="20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20" ColumnDefinitions="150,*">
+          <!-- Ctrl+1/2 land on different pages per layout: the Classic navigation puts File Status
+               first, the original rail puts the Dashboard first. Both variants are declared so this
+               dialog never advertises a shortcut that does something else on screen. -->
           <TextBlock Grid.Row="0" Grid.Column="0" Classes="bold" Text="{OnPlatform Ctrl+1, macOS=⌘+1}"/>
-          <TextBlock Grid.Row="0" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Hotkeys.Repo.ViewDashboard}" />
+          <TextBlock Grid.Row="0" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Hotkeys.Repo.ViewDashboard}"
+                     IsVisible="{Binding !IsClassicLayoutActive, Source={x:Static vm:Preferences.Instance}}" />
+          <TextBlock Grid.Row="0" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Classic.FileStatus}"
+                     IsVisible="{Binding IsClassicLayoutActive, Source={x:Static vm:Preferences.Instance}}" />
 
           <TextBlock Grid.Row="1" Grid.Column="0" Classes="bold" Text="{OnPlatform Ctrl+2, macOS=⌘+2}"/>
-          <TextBlock Grid.Row="1" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Hotkeys.Repo.ViewChanges}" />
+          <TextBlock Grid.Row="1" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Hotkeys.Repo.ViewChanges}"
+                     IsVisible="{Binding !IsClassicLayoutActive, Source={x:Static vm:Preferences.Instance}}" />
+          <TextBlock Grid.Row="1" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Classic.History}"
+                     IsVisible="{Binding IsClassicLayoutActive, Source={x:Static vm:Preferences.Instance}}" />
 
           <TextBlock Grid.Row="2" Grid.Column="0" Classes="bold" Text="{OnPlatform Ctrl+3, macOS=⌘+3}"/>
           <TextBlock Grid.Row="2" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Hotkeys.Repo.ViewStashes}" />

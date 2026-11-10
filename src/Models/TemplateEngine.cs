@@ -358,7 +358,8 @@ namespace SourceGit.Models
 
         private static string GetBranchName(Context context)
         {
-            return context.branch.Name;
+            // A repository without any commit has no current branch yet; a template must not throw then.
+            return context.branch?.Name ?? string.Empty;
         }
 
         private static string GetFilesCount(Context context)

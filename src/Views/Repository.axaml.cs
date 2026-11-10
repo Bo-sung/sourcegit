@@ -80,6 +80,8 @@ namespace SourceGit.Views
         {
             _sidebarWidth = new GridLength(ViewModels.Preferences.Instance.Layout.RepositorySidebarWidth);
             InitializeComponent();
+            if (ViewModels.Preferences.Instance.IsClassicLayoutActive)
+                RepositoryRoot.ColumnDefinitions[0].Width = new GridLength(0);
         }
 
         protected override void OnLoaded(RoutedEventArgs e)

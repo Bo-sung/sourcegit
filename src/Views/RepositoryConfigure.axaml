@@ -44,7 +44,7 @@
           <TextBlock Classes="tab_header" Text="{DynamicResource Text.Configure.Git}"/>
         </TabItem.Header>
 
-        <Grid Margin="16,4,16,8" RowDefinitions="32,32,32,32,32,32,32,32,32,32,32,32" ColumnDefinitions="Auto,*">
+        <Grid Margin="16,4,16,8" RowDefinitions="32,32,32,32,32,32,32,32,32,32,32,32,32,32" ColumnDefinitions="Auto,*">
           <TextBlock Grid.Row="0" Grid.Column="0"
                      HorizontalAlignment="Right" VerticalAlignment="Center"
                      Margin="0,0,8,0"
@@ -72,13 +72,14 @@
           <ComboBox Grid.Row="2" Grid.Column="1"
                     Height="28" Padding="8,0"
                     VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                    ItemsSource="{Binding Remotes}"
+                    ItemsSource="{Binding RemotesWithAuto}"
                     SelectedItem="{Binding DefaultRemote, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
               <DataTemplate>
                 <StackPanel Orientation="Horizontal" Height="20" VerticalAlignment="Center">
                   <Path Margin="0,2,8,0" Width="14" Height="14" Fill="{DynamicResource Brush.FG1}" Data="{StaticResource Icons.Remote}"/>
-                  <TextBlock Text="{Binding}"/>
+                  <TextBlock Text="{Binding}" IsVisible="{Binding Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                  <TextBlock Text="{DynamicResource Text.Configure.Git.DefaultRemoteAuto}" IsVisible="{Binding Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
                 </StackPanel>
               </DataTemplate>
             </ComboBox.ItemTemplate>
@@ -174,16 +175,36 @@
                     IsChecked="{Binding GPGTagSigningEnabled, Mode=TwoWay}"
                     ToolTip.Tip="tag.gpgsign=true"/>
 
-          <CheckBox Grid.Row="9" Grid.Column="1"
+          <StackPanel Grid.Row="9" Grid.Column="1" Orientation="Horizontal" Margin="0,2,0,0">
+            <Path Width="12" Height="12" Margin="0,0,6,0" VerticalAlignment="Center" Data="{StaticResource Icons.Info}" Fill="{DynamicResource Brush.FG2}"/>
+            <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource Brush.FG2}" Text="{DynamicResource Text.Configure.Git.SigningEffective}"/>
+            <TextBlock Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="{DynamicResource Fonts.Monospace}" Text="{Binding SigningFormat}"/>
+            <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource Brush.FG2}" Text="{DynamicResource Text.Configure.Git.SigningProgram}"/>
+            <TextBlock Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="{DynamicResource Fonts.Monospace}" Text="{Binding SigningProgram}"/>
+            <Path Width="12" Height="12" Margin="6,0,0,0" VerticalAlignment="Center" Data="{StaticResource Icons.Error}" Fill="OrangeRed"
+                  IsVisible="{Binding HasSigningProgramMissing}">
+              <ToolTip.Tip>
+                <ToolTip Content="{DynamicResource Text.Configure.Git.SigningProgramMissing}"/>
+              </ToolTip.Tip>
+            </Path>
+            <Path Width="12" Height="12" Margin="6,0,0,0" VerticalAlignment="Center" Data="{StaticResource Icons.Error}" Fill="OrangeRed"
+                  IsVisible="{Binding HasSigningKeyMissing}">
+              <ToolTip.Tip>
+                <ToolTip Content="{DynamicResource Text.Configure.Git.SigningKeyMissing}"/>
+              </ToolTip.Tip>
+            </Path>
+          </StackPanel>
+
+          <CheckBox Grid.Row="10" Grid.Column="1"
                     Content="{DynamicResource Text.Preferences.Git.EnablePruneOnFetch}"
                     IsChecked="{Binding EnablePruneOnFetch, Mode=TwoWay}"
                     ToolTip.Tip="fetch.prune=true"/>
 
-          <CheckBox Grid.Row="10" Grid.Column="1"
+          <CheckBox Grid.Row="11" Grid.Column="1"
                     Content="{DynamicResource Text.Configure.Git.EnableRecursiveWhenAutoUpdatingSubmodules}"
                     IsChecked="{Binding EnableRecursiveWhenAutoUpdatingSubmodules, Mode=TwoWay}"/>
 
-          <CheckBox Grid.Row="11" Grid.Column="1"
+          <CheckBox Grid.Row="12" Grid.Column="1"
                     Content="{DynamicResource Text.Configure.Git.AskBeforeAutoUpdatingSubmodules}"
                     IsChecked="{Binding AskBeforeAutoUpdatingSubmodules, Mode=TwoWay}"/>
         </Grid>
@@ -194,7 +215,7 @@
           <TextBlock Classes="tab_header" Text="{DynamicResource Text.Configure.CommitMessageTemplate}"/>
         </TabItem.Header>
 
-        <Grid ColumnDefinitions="200,*" Height="300" Margin="0,8,0,16">
+        <Grid ColumnDefinitions="200,*" RowDefinitions="300,Auto" Margin="0,8,0,16">
           <Border Grid.Column="0"
                   BorderThickness="1" BorderBrush="{DynamicResource Brush.Border2}"
                   Background="{DynamicResource Brush.Contents}">
@@ -273,6 +294,16 @@
               </DataTemplate>
             </ContentControl.DataTemplates>
           </ContentControl>
+
+          <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="16,8,16,0" Orientation="Vertical">
+            <TextBlock Foreground="{DynamicResource Brush.FG2}" TextWrapping="Wrap" Text="{DynamicResource Text.Configure.CommitMessageTemplate.StorageNote}"/>
+            <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+              <TextBlock Foreground="{DynamicResource Brush.FG2}" Text="{DynamicResource Text.Configure.CommitMessageTemplate.GitTemplate}"/>
+              <TextBlock Margin="6,0,0,0" FontFamily="{DynamicResource Fonts.Monospace}" Text="{Binding GitCommitTemplatePath}" IsVisible="{Binding HasGitCommitTemplate}" ToolTip.Tip="{Binding GitCommitTemplatePath}"/>
+              <TextBlock Margin="6,0,0,0" Foreground="{DynamicResource Brush.FG2}" Text="{DynamicResource Text.Configure.CommitMessageTemplate.NotConfigured}" IsVisible="{Binding !HasGitCommitTemplate}"/>
+              <TextBlock Margin="8,0,0,0" Foreground="OrangeRed" Text="{DynamicResource Text.Configure.CommitMessageTemplate.GitTemplateMissing}" IsVisible="{Binding HasGitCommitTemplateMissing}"/>
+            </StackPanel>
+          </StackPanel>
         </Grid>
       </TabItem>
 
@@ -281,7 +312,7 @@
           <TextBlock Classes="tab_header" Text="{DynamicResource Text.Configure.IssueTracker}"/>
         </TabItem.Header>
 
-        <Grid ColumnDefinitions="200,*" Height="250" Margin="0,8,0,16">
+        <Grid ColumnDefinitions="200,*" RowDefinitions="250,Auto" Margin="0,8,0,16">
           <Border Grid.Column="0"
                   BorderThickness="1" BorderBrush="{DynamicResource Brush.Border2}"
                   Background="{DynamicResource Brush.Contents}">
@@ -379,6 +410,15 @@
               </DataTemplate>
             </ContentControl.DataTemplates>
           </ContentControl>
+
+          <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="16,8,16,0" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Foreground="{DynamicResource Brush.FG2}" Text="{DynamicResource Text.Configure.IssueTracker.SharedFile}"/>
+              <TextBlock Margin="6,0,0,0" FontFamily="{DynamicResource Fonts.Monospace}" Text="{Binding IssueTrackerSharedPath}" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding IssueTrackerSharedPath}"/>
+              <TextBlock Margin="6,0,0,0" Foreground="{DynamicResource Brush.FG2}" Text="{DynamicResource Text.Configure.IssueTracker.SharedFileMissing}" IsVisible="{Binding !HasIssueTrackerSharedFile}"/>
+            </StackPanel>
+            <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource Brush.FG2}" TextWrapping="Wrap" Text="{DynamicResource Text.Configure.IssueTracker.PrivateNote}"/>
+          </StackPanel>
         </Grid>
       </TabItem>
 

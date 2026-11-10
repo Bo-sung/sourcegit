@@ -1,16 +1,22 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace SourceGit.Models
 {
-    public class DealWithChangesAfterStashing(string label, string desc)
+    /// <summary>
+    /// Describes how local changes are handled after a stash is created. The
+    /// texts are locale keys resolved at bind time, so the list stays correct
+    /// after a language switch without rebuilding it.
+    /// </summary>
+    public class DealWithChangesAfterStashing(string labelKey, string descKey)
     {
-        public string Label { get; set; } = label;
-        public string Desc { get; set; } = desc;
+        public string Label => App.Text(labelKey);
+
+        public string Desc => App.Text(descKey);
 
         public static readonly List<DealWithChangesAfterStashing> Supported = [
-            new ("Discard", "All (or selected) changes will be discarded"),
-            new ("Keep Index", "Staged changes are left intact"),
-            new ("Keep All", "All (or selected) changes are left intact"),
+            new ("Stash.Mode.Discard", "Stash.Mode.Discard.Desc"),
+            new ("Stash.Mode.KeepIndex", "Stash.Mode.KeepIndex.Desc"),
+            new ("Stash.Mode.KeepAll", "Stash.Mode.KeepAll.Desc"),
         ];
     }
 }

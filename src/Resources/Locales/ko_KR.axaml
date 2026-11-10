@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <ResourceDictionary.MergedDictionaries>
     <ResourceInclude Source="avares://SourceGit/Resources/Locales/en_US.axaml"/>
   </ResourceDictionary.MergedDictionaries>
@@ -52,13 +52,19 @@
   <x:String x:Key="Text.Bisect.Bad">나쁨</x:String>
   <x:String x:Key="Text.Bisect.Good">좋음</x:String>
   <x:String x:Key="Text.Bisect.Skip">건너뛰기</x:String>
+  <x:String x:Key="Text.Bisect.WaitingForCheckoutAnother" xml:space="preserve">이진 탐색 중. 다른 커밋을 체크아웃한 다음 '좋음' 또는 '나쁨'으로 표시하세요.</x:String>
+  <x:String x:Key="Text.Bisect.WaitingForFirstBad" xml:space="preserve">이진 탐색 중. 현재 커밋을 '나쁨'으로 표시하거나 다른 커밋을 체크아웃한 다음 '나쁨'으로 표시하세요.</x:String>
   <x:String x:Key="Text.Bisect.WaitingForFirstGood">이진 탐색 중. 현재 커밋을 '좋음' 또는 '나쁨'으로 표시하고 다른 커밋을 체크아웃하세요.</x:String>
   <x:String x:Key="Text.Bisect.WaitingForMark">이진 탐색 중. 현재 HEAD가 '좋음' 상태입니까, '나쁨' 상태입니까?</x:String>
   <x:String x:Key="Text.Blame" xml:space="preserve">블레임</x:String>
+  <x:String x:Key="Text.Blame.Back" xml:space="preserve">뒤로</x:String>
   <x:String x:Key="Text.Blame.BlameOnPreviousRevision" xml:space="preserve">이전 리비전으로 책임 추적</x:String>
+  <x:String x:Key="Text.Blame.Forward" xml:space="preserve">앞으로</x:String>
   <x:String x:Key="Text.Blame.IgnoreWhitespace" xml:space="preserve">공백 변경 무시</x:String>
+  <x:String x:Key="Text.Blame.Tips" xml:space="preserve">커밋 SHA를 클릭할 때 Ctrl (Windows/Linux) 또는 ⌘ (macOS) 키를 누르고 있으면 해당 리비전을 기준으로 블레임 데이터를 다시 계산합니다.</x:String>
   <x:String x:Key="Text.Blame.TypeNotSupported" xml:space="preserve">이 파일은 책임 추적 기능을 지원하지 않습니다</x:String>
   <x:String x:Key="Text.BranchCM.Checkout" xml:space="preserve">${0}$(으)로 체크아웃...</x:String>
+  <x:String x:Key="Text.BranchCM.CheckoutAsWorktree" xml:space="preserve">${0}$(으)로 워크트리 체크아웃...</x:String>
   <x:String x:Key="Text.BranchCM.CompareTwo" xml:space="preserve">선택한 두 브랜치 비교하기</x:String>
   <x:String x:Key="Text.BranchCM.CompareWith" xml:space="preserve">다음과 비교...</x:String>
   <x:String x:Key="Text.BranchCM.CompareWithHead" xml:space="preserve">HEAD와 비교</x:String>
@@ -88,6 +94,7 @@
   <x:String x:Key="Text.BranchTree.AheadBehind" xml:space="preserve">{0}개 커밋 앞섬, {1}개 커밋 뒤처짐</x:String>
   <x:String x:Key="Text.BranchTree.Behind" xml:space="preserve">{0}개 커밋 뒤처짐</x:String>
   <x:String x:Key="Text.BranchTree.InvalidUpstream" xml:space="preserve">유효하지 않음</x:String>
+  <x:String x:Key="Text.BranchTree.PushURL" xml:space="preserve">푸시 URL</x:String>
   <x:String x:Key="Text.BranchTree.Remote" xml:space="preserve">원격</x:String>
   <x:String x:Key="Text.BranchTree.Status" xml:space="preserve">상태</x:String>
   <x:String x:Key="Text.BranchTree.Tracking" xml:space="preserve">추적 중</x:String>
@@ -114,15 +121,72 @@
   <x:String x:Key="Text.Checkout.WarnUpdatingSubmodules" xml:space="preserve">다음 서브모듈을 업데이트해야 합니다:{0}업데이트하시겠습니까?</x:String>
   <x:String x:Key="Text.Checkout.WithFastForward" xml:space="preserve">체크아웃 &amp; Fast-Forward</x:String>
   <x:String x:Key="Text.Checkout.WithFastForward.Upstream" xml:space="preserve">Fast-Forward 대상:</x:String>
+  <x:String x:Key="Text.CheckoutAsWorktree" xml:space="preserve">브랜치를 워크트리로 체크아웃</x:String>
+  <x:String x:Key="Text.CheckoutAsWorktree.LocalBranch" xml:space="preserve">로컬 브랜치:</x:String>
+  <x:String x:Key="Text.CheckoutAsWorktree.NewBranchName" xml:space="preserve">새 브랜치 이름:</x:String>
+  <x:String x:Key="Text.CheckoutAsWorktree.NewBranchName.Placeholder" xml:space="preserve">선택 사항. 기본값은 대상 폴더 이름입니다.</x:String>
+  <x:String x:Key="Text.CheckoutAsWorktree.RemoteBranch" xml:space="preserve">원격 브랜치:</x:String>
+  <x:String x:Key="Text.CheckoutAsWorktree.Tracking" xml:space="preserve">이 원격 브랜치를 추적합니다.</x:String>
+  <x:String x:Key="Text.CheckoutAsWorktree.WorktreePath" xml:space="preserve">워크트리 경로:</x:String>
+  <x:String x:Key="Text.CheckoutAsWorktree.WorktreePath.Placeholder" xml:space="preserve">이 워크트리의 경로입니다. 상대 경로를 지원합니다.</x:String>
   <x:String x:Key="Text.CheckoutBranchFromStash" xml:space="preserve">스태시에서 브랜치 체크아웃</x:String>
   <x:String x:Key="Text.CheckoutBranchFromStash.Branch" xml:space="preserve">새로운 브랜치:</x:String>
   <x:String x:Key="Text.CheckoutBranchFromStash.Stash" xml:space="preserve">스태시:</x:String>
+  <x:String x:Key="Text.CheckoutDetached" xml:space="preserve">커밋 또는 태그 체크아웃</x:String>
+  <x:String x:Key="Text.CheckoutDetached.Target" xml:space="preserve">대상:</x:String>
+  <x:String x:Key="Text.CheckoutDetached.Warning" xml:space="preserve">경고: 이 작업을 하면 HEAD가 분리된(detached) 상태가 됩니다</x:String>
   <x:String x:Key="Text.CherryPick" xml:space="preserve">체리픽</x:String>
   <x:String x:Key="Text.CherryPick.AppendSourceToMessage" xml:space="preserve">커밋 메시지에 원본 추가</x:String>
   <x:String x:Key="Text.CherryPick.Commit" xml:space="preserve">커밋:</x:String>
   <x:String x:Key="Text.CherryPick.CommitChanges" xml:space="preserve">모든 변경 사항 커밋</x:String>
   <x:String x:Key="Text.CherryPick.Mainline" xml:space="preserve">메인라인:</x:String>
   <x:String x:Key="Text.CherryPick.Mainline.Tips" xml:space="preserve">어느 쪽을 메인라인으로 간주해야 할지 알 수 없기 때문에 일반적으로 병합(merge)을 체리픽할 수 없습니다. 이 옵션을 사용하면 지정된 부모를 기준으로 변경 사항을 다시 적용할 수 있습니다.</x:String>
+  <x:String x:Key="Text.Classic.EnableLayout" xml:space="preserve">클래식 UI 사용 (재시작 필요)</x:String>
+  <x:String x:Key="Text.Classic.FileStatus" xml:space="preserve">파일 상태</x:String>
+  <x:String x:Key="Text.Classic.History" xml:space="preserve">히스토리</x:String>
+  <x:String x:Key="Text.Classic.More" xml:space="preserve">더 보기…</x:String>
+  <x:String x:Key="Text.Classic.Navigation" xml:space="preserve">작업 공간 탐색</x:String>
+  <x:String x:Key="Text.Classic.Submodule.InitOff" xml:space="preserve">초기화되지 않은 대상은 그대로 유지됩니다.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.InitOn" xml:space="preserve">초기화되지 않은 대상은 먼저 초기화됩니다 (--init).</x:String>
+  <x:String x:Key="Text.Classic.Submodule.ModeRecorded" xml:space="preserve">기본: 각 대상은 이 저장소에 기록된 커밋으로 업데이트됩니다.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.ModeRemote" xml:space="preserve">원격 추적 브랜치: 각 대상이 기록된 커밋 대신 원격 추적 브랜치로 업데이트됩니다.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.NoTarget" xml:space="preserve">대상 경로가 없습니다. 업데이트되지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.RecursiveOff" xml:space="preserve">대상 경로만 업데이트되며 중첩된 서브모듈은 포함되지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.RecursiveOn" xml:space="preserve">대상의 중첩된 서브모듈까지 포함됩니다 (--recursive).</x:String>
+  <x:String x:Key="Text.Classic.Submodule.Status.Normal" xml:space="preserve">정상</x:String>
+  <x:String x:Key="Text.Classic.Submodule.Targets" xml:space="preserve">대상:</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnDirty" xml:space="preserve">일부 대상에 이미 로컬 변경이 있습니다. 이 대화 상자는 이를 삭제하거나 초기화하거나 강제 적용하지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnLocalURL" xml:space="preserve">초기화되지 않은 대상이 로컬 경로를 가리키면 Git의 file 전송 방식으로 clone되며, 이 방식은 기본적으로 차단됩니다. 이 저장소에 protocol.file.allow를 설정하거나 http/ssh URL을 사용하세요.</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnLocalURLPaths" xml:space="preserve">로컬 URL:</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnModified" xml:space="preserve">수정됨:</x:String>
+  <x:String x:Key="Text.Classic.Submodule.WarnUnmerged" xml:space="preserve">병합되지 않음:</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthAnonymous" xml:space="preserve">로컬 경로 또는 git 프로토콜: 여기서 대화형 로그인은 예상되지 않으며 외부 자격 증명 설정은 확인하지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthFailureHint" xml:space="preserve">실패하면 작업 중에 열리는 로그에서 Git·SSH 출력을 확인하세요. 여기서는 인증 성공 여부를 판정하지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthHTTPS" xml:space="preserve">HTTPS 엔드포인트: 인증은 Git과 설정된 자격 증명 수단이 처리하며, 여기서는 확인하지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthMixed" xml:space="preserve">혼합 엔드포인트: 리모트별로 인증 방식이 다를 수 있습니다. 실패하면 로그 출력을 확인하세요.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.AuthSSH" xml:space="preserve">SSH 엔드포인트: 설정된 SSH 키가 있으면 그 키를, 없으면 Git의 기본 키 또는 ssh-agent를 사용합니다. 여기서는 확인하지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Endpoint" xml:space="preserve">엔드포인트:</x:String>
+  <x:String x:Key="Text.Classic.Transfer.EndpointHidden" xml:space="preserve">표시 불가: URL 형식이 알 수 없거나 비밀 정보를 포함할 수 있습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailConnect" xml:space="preserve">엔드포인트에 연결할 수 없습니다. 호스트, 포트, VPN 또는 프록시와 리모트 URL을 확인하세요. 인증은 시도되지 않았습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailCredential" xml:space="preserve">Git에 필요한 자격 증명이 없습니다. Git에 설정된 계정 또는 토큰을 확인하세요. SourceGit는 자격 증명을 저장하지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailLocalTransport" xml:space="preserve">Git이 안전을 위해 로컬 파일 전송을 차단했습니다. 절대 경로 또는 네트워크 URL을 사용하거나, 이 저장소에서 git config protocol.file.allow로 허용하세요.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailRepository" xml:space="preserve">Git이 해당 저장소를 읽을 수 없습니다. 경로와 대소문자, 그리고 계정 접근 권한을 확인하세요.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailSSHHostKey" xml:space="preserve">Git이 서버의 호스트 키를 거부했습니다. 지문을 서버 관리자 확인 후 직접 known_hosts를 갱신하세요. SourceGit는 자동으로 신뢰하거나 수정하지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailSSHPermission" xml:space="preserve">서버가 이 기기의 SSH 키를 거부했습니다. 이 리모트에 설정된 개인키와 계정에 등록된 공개키를 확인하세요. SourceGit는 SSH 설정이나 에이전트를 변경하지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.FailTLSCert" xml:space="preserve">Git이 서버 인증서를 거부했습니다. 검증을 끄지 말고 시스템 인증 저장소 또는 Git의 http.ssl 설정을 확인하세요.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Mapping" xml:space="preserve">브랜치 매핑:</x:String>
+  <x:String x:Key="Text.Classic.Transfer.NewBranch" xml:space="preserve">원격에 새 브랜치를 만듭니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.NoUpstream" xml:space="preserve">현재 브랜치에 추적 브랜치가 아직 없습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.NotSelected" xml:space="preserve">원격 브랜치가 선택되지 않았습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.PushURLEndpoint" xml:space="preserve">pushURL</x:String>
+  <x:String x:Key="Text.Classic.Transfer.SecretHidden" xml:space="preserve">이 요약에서는 자격 증명·쿼리·프래그먼트를 표시하지 않습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.SshKeyConfigured" xml:space="preserve">이 리모트에 개인 SSH 키가 설정되어 있습니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.SshKeyDefault" xml:space="preserve">리모트 SSH 키가 설정되지 않아 기본 키 또는 ssh-agent를 사용합니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Target" xml:space="preserve">대상:</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Tracked" xml:space="preserve">현재 브랜치의 추적 브랜치와 일치합니다.</x:String>
+  <x:String x:Key="Text.Classic.Transfer.TrackingUpdate" xml:space="preserve">추적 브랜치가 갱신됩니다 (-u).</x:String>
+  <x:String x:Key="Text.Classic.Transfer.Untracked" xml:space="preserve">현재 브랜치의 추적 브랜치와 다릅니다.</x:String>
+  <x:String x:Key="Text.Classic.Workspace" xml:space="preserve">작업 공간</x:String>
   <x:String x:Key="Text.ClearStashes" xml:space="preserve">모든 스태시 지우기</x:String>
   <x:String x:Key="Text.ClearStashes.Message" xml:space="preserve">모든 스태시를 지우려고 합니다. 계속하시겠습니까?</x:String>
   <x:String x:Key="Text.Clone" xml:space="preserve">원격 저장소 복제</x:String>
@@ -175,6 +239,7 @@
   <x:String x:Key="Text.CommitDetail.Files.LFS" xml:space="preserve">LFS 파일</x:String>
   <x:String x:Key="Text.CommitDetail.Files.Search" xml:space="preserve">파일 검색...</x:String>
   <x:String x:Key="Text.CommitDetail.Files.Submodule" xml:space="preserve">서브모듈</x:String>
+  <x:String x:Key="Text.CommitDetail.Files.Tips" xml:space="preserve">내용을 볼 파일을 선택하세요</x:String>
   <x:String x:Key="Text.CommitDetail.Info" xml:space="preserve">정보</x:String>
   <x:String x:Key="Text.CommitDetail.Info.Author" xml:space="preserve">작성자</x:String>
   <x:String x:Key="Text.CommitDetail.Info.Committer" xml:space="preserve">커밋터</x:String>
@@ -201,7 +266,18 @@
   <x:String x:Key="Text.Compare.Commits.Tips" xml:space="preserve">팁: 반대편이 HEAD인 경우 선택한 커밋을 체리픽할 수 있습니다(컨텍스트 메뉴 사용).</x:String>
   <x:String x:Key="Text.Configure" xml:space="preserve">저장소 설정</x:String>
   <x:String x:Key="Text.Configure.CommitMessageTemplate" xml:space="preserve">커밋 템플릿</x:String>
-  <x:String x:Key="Text.Configure.CommitMessageTemplate.BuiltinVars" xml:space="preserve">${files_num}, ${branch_name}, ${files} 및 ${files:N} (N은 출력할 최대 파일 경로 수)을(를) 사용할 수 있습니다.</x:String>
+  <x:String x:Key="Text.Configure.CommitMessageTemplate.BuiltinVars" xml:space="preserve">내장 변수:
+
+  ${branch_name} 현재 로컬 브랜치 이름
+  ${files_num} 변경된 파일 수
+  ${files} 변경된 파일 경로
+  ${files:N} 변경된 파일 경로를 최대 N개까지
+  ${pure_files} ${files}와 같지만 폴더 없이 파일 이름만
+  ${pure_files:N} ${files:N}와 같지만 폴더 없이 파일 이름만</x:String>
+  <x:String x:Key="Text.Configure.CommitMessageTemplate.StorageNote" xml:space="preserve">여기에 나열한 템플릿은 이 저장소의 설정 파일에만 저장되므로 다른 클론에는 적용되지 않습니다.</x:String>
+  <x:String x:Key="Text.Configure.CommitMessageTemplate.GitTemplate" xml:space="preserve">Git commit.template:</x:String>
+  <x:String x:Key="Text.Configure.CommitMessageTemplate.NotConfigured" xml:space="preserve">(미설정)</x:String>
+  <x:String x:Key="Text.Configure.CommitMessageTemplate.GitTemplateMissing" xml:space="preserve">파일이 존재하지 않습니다.</x:String>
   <x:String x:Key="Text.Configure.CommitMessageTemplate.Content" xml:space="preserve">템플릿 내용:</x:String>
   <x:String x:Key="Text.Configure.CommitMessageTemplate.Name" xml:space="preserve">템플릿 이름:</x:String>
   <x:String x:Key="Text.Configure.CustomAction" xml:space="preserve">사용자 지정 작업</x:String>
@@ -232,10 +308,16 @@
   <x:String x:Key="Text.Configure.Email.Placeholder" xml:space="preserve">이메일 주소</x:String>
   <x:String x:Key="Text.Configure.Git" xml:space="preserve">GIT</x:String>
   <x:String x:Key="Text.Configure.Git.AskBeforeAutoUpdatingSubmodules" xml:space="preserve">서브모듈 자동 업데이트 전에 확인</x:String>
+  <x:String x:Key="Text.Configure.Git.DefaultRemoteAuto" xml:space="preserve">없음: 각 작업에서 브랜치의 트래킹 리모트를 따릅니다</x:String>
+  <x:String x:Key="Text.Configure.Git.SigningEffective" xml:space="preserve">실효 서명 설정:</x:String>
+  <x:String x:Key="Text.Configure.Git.SigningProgram" xml:space="preserve">프로그램:</x:String>
+  <x:String x:Key="Text.Configure.Git.SigningProgramMissing" xml:space="preserve">설정된 서명 프로그램이 없어 서명이 실패합니다. 환경설정에서 프로그램 경로를 지정하세요.</x:String>
+  <x:String x:Key="Text.Configure.Git.SigningKeyMissing" xml:space="preserve">서명 키 없이 커밋 서명이 켜져 있어 서명이 실패합니다.</x:String>
   <x:String x:Key="Text.Configure.Git.AutoFetch" xml:space="preserve">원격 자동 Fetch</x:String>
   <x:String x:Key="Text.Configure.Git.AutoFetchIntervalSuffix" xml:space="preserve">분</x:String>
   <x:String x:Key="Text.Configure.Git.ConventionalTypesOverride" xml:space="preserve">Conventional Commit 유형</x:String>
   <x:String x:Key="Text.Configure.Git.DefaultRemote" xml:space="preserve">기본 원격</x:String>
+  <x:String x:Key="Text.Configure.Git.EnableRecursiveWhenAutoUpdatingSubmodules" xml:space="preserve">서브모듈 자동 업데이트 시 `--recursive` 사용</x:String>
   <x:String x:Key="Text.Configure.Git.PreferredMergeMode" xml:space="preserve">선호하는 병합 모드</x:String>
   <x:String x:Key="Text.Configure.IssueTracker" xml:space="preserve">이슈 트래커</x:String>
   <x:String x:Key="Text.Configure.IssueTracker.AddSampleAzure" xml:space="preserve">Azure DevOps 규칙 추가</x:String>
@@ -250,6 +332,9 @@
   <x:String x:Key="Text.Configure.IssueTracker.Regex" xml:space="preserve">이슈 정규식:</x:String>
   <x:String x:Key="Text.Configure.IssueTracker.RuleName" xml:space="preserve">규칙 이름:</x:String>
   <x:String x:Key="Text.Configure.IssueTracker.Share" xml:space="preserve">.issuetracker 파일에 이 규칙 공유</x:String>
+  <x:String x:Key="Text.Configure.IssueTracker.SharedFile" xml:space="preserve">공유 규칙 저장 위치:</x:String>
+  <x:String x:Key="Text.Configure.IssueTracker.SharedFileMissing" xml:space="preserve">(아직 파일 없음)</x:String>
+  <x:String x:Key="Text.Configure.IssueTracker.PrivateNote" xml:space="preserve">공유를 선택하지 않은 규칙은 이 저장소의 로컬 Git 설정에 저장됩니다.</x:String>
   <x:String x:Key="Text.Configure.IssueTracker.URLTemplate" xml:space="preserve">결과 URL:</x:String>
   <x:String x:Key="Text.Configure.IssueTracker.URLTemplate.Tip" xml:space="preserve">정규식 그룹 값에 접근하려면 $1, $2를 사용하세요.</x:String>
   <x:String x:Key="Text.Configure.OpenAI" xml:space="preserve">AI</x:String>
@@ -318,6 +403,7 @@
   <x:String x:Key="Text.CreateTag.Type.Lightweight" xml:space="preserve">경량 태그</x:String>
   <x:String x:Key="Text.CtrlClickTip" xml:space="preserve">Ctrl을 누른 채 클릭하면 바로 시작합니다</x:String>
   <x:String x:Key="Text.Cut" xml:space="preserve">잘라내기</x:String>
+  <x:String x:Key="Text.Dashboard" xml:space="preserve">대시보드</x:String>
   <x:String x:Key="Text.DealWithLocalChanges.Discard" xml:space="preserve">폐기</x:String>
   <x:String x:Key="Text.DealWithLocalChanges.DoNothing" xml:space="preserve">아무것도 하지 않기</x:String>
   <x:String x:Key="Text.DealWithLocalChanges.StashAndReapply" xml:space="preserve">스태시 &amp; 재적용</x:String>
@@ -326,6 +412,7 @@
   <x:String x:Key="Text.DeinitSubmodule.Path" xml:space="preserve">서브모듈:</x:String>
   <x:String x:Key="Text.DeleteBranch" xml:space="preserve">브랜치 삭제</x:String>
   <x:String x:Key="Text.DeleteBranch.Branch" xml:space="preserve">브랜치:</x:String>
+  <x:String x:Key="Text.DeleteBranch.Force" xml:space="preserve">병합되지 않은 커밋이 있어도 강제 삭제</x:String>
   <x:String x:Key="Text.DeleteBranch.IsRemoteTip" xml:space="preserve">원격 브랜치를 삭제하려고 합니다!!!</x:String>
   <x:String x:Key="Text.DeleteBranch.WithTrackingRemote" xml:space="preserve">원격 브랜치 ${0}$도 함께 삭제</x:String>
   <x:String x:Key="Text.DeleteMultiBranch" xml:space="preserve">여러 브랜치 삭제</x:String>
@@ -347,6 +434,8 @@
   <x:String x:Key="Text.DeleteTag.Tag" xml:space="preserve">태그:</x:String>
   <x:String x:Key="Text.DeleteTag.WithRemote" xml:space="preserve">원격 저장소에서도 삭제</x:String>
   <x:String x:Key="Text.Diff.Binary" xml:space="preserve">바이너리 비교</x:String>
+  <x:String x:Key="Text.Diff.Binary.ViewContentOfNew" xml:space="preserve">새 내용 보기</x:String>
+  <x:String x:Key="Text.Diff.EmptyFile" xml:space="preserve">빈 파일</x:String>
   <x:String x:Key="Text.Diff.First" xml:space="preserve">첫 번째 차이점</x:String>
   <x:String x:Key="Text.Diff.IgnoreWhitespace" xml:space="preserve">공백 변경 사항 무시</x:String>
   <x:String x:Key="Text.Diff.Image.Blend" xml:space="preserve">혼합</x:String>
@@ -394,6 +483,11 @@
   <x:String x:Key="Text.EditRepositoryNode.Target" xml:space="preserve">대상:</x:String>
   <x:String x:Key="Text.EditRepositoryNode.TitleForGroup" xml:space="preserve">선택한 그룹 편집</x:String>
   <x:String x:Key="Text.EditRepositoryNode.TitleForRepository" xml:space="preserve">선택한 저장소 편집</x:String>
+  <x:String x:Key="Text.Exception.BadGitFlowBranchType" xml:space="preserve">잘못된 git-flow 브랜치 유형입니다!</x:String>
+  <x:String x:Key="Text.Exception.CLIBasedDiffToolUnsupported" xml:space="preserve">{0}과(와) 같은 CLI 기반 비유 도구는 이 앱에서 지원하지 않습니다!</x:String>
+  <x:String x:Key="Text.Exception.CLIBasedMergeToolUnsupported" xml:space="preserve">{0}과(와) 같은 CLI 기반 병합 도구는 이 앱에서 지원하지 않습니다!</x:String>
+  <x:String x:Key="Text.Exception.InvalidDiffMergeTool" xml:space="preserve">환경 설정의 비유/병합 도구가 올바르지 않습니다!</x:String>
+  <x:String x:Key="Text.Exception.MissingGitConfig" xml:space="preserve">git 설정이 없습니다: {0}</x:String>
   <x:String x:Key="Text.ExecuteCustomAction.Target" xml:space="preserve">대상:</x:String>
   <x:String x:Key="Text.ExecuteCustomAction.Repository" xml:space="preserve">이 저장소</x:String>
   <x:String x:Key="Text.Fetch" xml:space="preserve">Fetch</x:String>
@@ -402,6 +496,9 @@
   <x:String x:Key="Text.Fetch.NoTags" xml:space="preserve">태그 없이 Fetch</x:String>
   <x:String x:Key="Text.Fetch.Remote" xml:space="preserve">원격:</x:String>
   <x:String x:Key="Text.Fetch.Title" xml:space="preserve">원격 변경 사항 Fetch</x:String>
+  <x:String x:Key="Text.File.Binary" xml:space="preserve">바이너리 파일</x:String>
+  <x:String x:Key="Text.File.HexViewer" xml:space="preserve">16진수 뷰어</x:String>
+  <x:String x:Key="Text.File.HexViewer.GotoAddress" xml:space="preserve">주소로 이동...</x:String>
   <x:String x:Key="Text.FileCM.AssumeUnchanged" xml:space="preserve">변경되지 않음으로 간주</x:String>
   <x:String x:Key="Text.FileCM.CustomAction" xml:space="preserve">사용자 지정 작업</x:String>
   <x:String x:Key="Text.FileCM.Discard" xml:space="preserve">폐기...</x:String>
@@ -419,26 +516,73 @@
   <x:String x:Key="Text.FileHistory" xml:space="preserve">파일 히스토리</x:String>
   <x:String x:Key="Text.FileHistory.FileChange" xml:space="preserve">변경 사항</x:String>
   <x:String x:Key="Text.FileHistory.FileContent" xml:space="preserve">내용</x:String>
+  <x:String x:Key="Text.FileModeChange" xml:space="preserve">파일 모드 변경: </x:String>
+  <x:String x:Key="Text.FileModeChange.Deleted" xml:space="preserve">삭제된 파일 모드: </x:String>
+  <x:String x:Key="Text.FileModeChange.Directory" xml:space="preserve">디렉터리</x:String>
+  <x:String x:Key="Text.FileModeChange.Executable" xml:space="preserve">실행 파일</x:String>
+  <x:String x:Key="Text.FileModeChange.New" xml:space="preserve">새 파일 모드: </x:String>
+  <x:String x:Key="Text.FileModeChange.Normal" xml:space="preserve">일반</x:String>
+  <x:String x:Key="Text.FileModeChange.Submodule" xml:space="preserve">서브모듈</x:String>
+  <x:String x:Key="Text.FileModeChange.Symlink" xml:space="preserve">심볼릭 링크</x:String>
+  <x:String x:Key="Text.FileModeChange.Unknown" xml:space="preserve">알 수 없음</x:String>
   <x:String x:Key="Text.GitFlow" xml:space="preserve">Git-Flow</x:String>
   <x:String x:Key="Text.GitFlow.DevelopBranch" xml:space="preserve">개발 브랜치:</x:String>
+  <x:String x:Key="Text.GitFlow.DependencyUnavailable" xml:space="preserve">선택한 Git 실행 파일에서 Git-Flow를 사용할 수 없거나 아직 감지되지 않아 작업을 실행하지 않았습니다. 환경 설정에서 Git 실행 파일과 Git-Flow 의존성을 확인한 뒤 감지가 끝나면 다시 시도해 주세요.</x:String>
   <x:String x:Key="Text.GitFlow.Feature" xml:space="preserve">Feature:</x:String>
   <x:String x:Key="Text.GitFlow.FeaturePrefix" xml:space="preserve">Feature 접두사:</x:String>
+  <x:String x:Key="Text.GitFlow.Finish" xml:space="preserve">${0}$ 완료</x:String>
   <x:String x:Key="Text.GitFlow.FinishFeature" xml:space="preserve">FLOW - Feature 완료</x:String>
   <x:String x:Key="Text.GitFlow.FinishHotfix" xml:space="preserve">FLOW - Hotfix 완료</x:String>
   <x:String x:Key="Text.GitFlow.FinishRelease" xml:space="preserve">FLOW - Release 완료</x:String>
   <x:String x:Key="Text.GitFlow.FinishTarget" xml:space="preserve">대상:</x:String>
+  <x:String x:Key="Text.GitFlow.FinishWithRebase" xml:space="preserve">병합 전에 리베이스</x:String>
   <x:String x:Key="Text.GitFlow.FinishWithSquash" xml:space="preserve">병합 시 스쿼시</x:String>
   <x:String x:Key="Text.GitFlow.Hotfix" xml:space="preserve">핫픽스:</x:String>
   <x:String x:Key="Text.GitFlow.HotfixPrefix" xml:space="preserve">Hotfix 접두사:</x:String>
   <x:String x:Key="Text.GitFlow.Init" xml:space="preserve">Git-Flow 초기화</x:String>
+  <x:String x:Key="Text.GitFlow.InitOverwriteWarning" xml:space="preserve">이 저장소에는 이미 Git Flow 설정이 있습니다. 초기화를 다시 실행하면 브랜치가 추가되고 설정이 다시 쓰일 수 있습니다. 값만 바꾸려면 아래 Git Flow 설정 항목을 사용하세요.</x:String>
   <x:String x:Key="Text.GitFlow.KeepBranchAfterFinish" xml:space="preserve">브랜치 유지</x:String>
   <x:String x:Key="Text.GitFlow.ProductionBranch" xml:space="preserve">운영 브랜치:</x:String>
   <x:String x:Key="Text.GitFlow.Release" xml:space="preserve">릴리스:</x:String>
   <x:String x:Key="Text.GitFlow.ReleasePrefix" xml:space="preserve">Release 접두사:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings" xml:space="preserve">Git Flow 설정...</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Title" xml:space="preserve">Git Flow 설정</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Dependency" xml:space="preserve">의존성:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.DepLegacy" xml:space="preserve">git-flow (레거시)</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.DepNext" xml:space="preserve">git-flow-next</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.DepUnknown" xml:space="preserve">선택한 Git 실행 파일에서 아직 확인되지 않음 - 설정 조회와 저장은 계속 사용할 수 있고, Git Flow 시작/완료는 차단됩니다</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ScopeLabel" xml:space="preserve">설정 범위:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Scope" xml:space="preserve">저장할 때 이 저장소의 .git/config에 씁니다: 로컬 git-flow 키 {0}개, 전역 설정 {1}개.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.GlobalOverride" xml:space="preserve">전역 설정에도 git-flow 키가 있습니다. 저장하면 저장소 로컬 키에 쓰이며 전역 값보다 우선합니다.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Impact" xml:space="preserve">기존 브랜치에 미치는 영향</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Prefixes" xml:space="preserve">접두사:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.BranchExists" xml:space="preserve">로컬에 존재</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.BranchMissing" xml:space="preserve">로컬 브랜치 없음</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.MatchCount" xml:space="preserve">일치하는 브랜치:</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.MissingBranch" xml:space="preserve">기본 브랜치가 로컬에 없으면 Git Flow 시작/완료 항목은 계속 숨겨집니다. 여기서 저장해도 브랜치는 만들어지지 않습니다.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.NoBranchChange" xml:space="preserve">저장하면 아래에 나열한 키만 씁니다. 브랜치를 만들거나 이름을 바꾸거나 삭제하거나 체크아웃하지 않으며, gitflow.prefix.bugfix 같은 관련 없는 키는 그대로 남습니다.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Parsed" xml:space="preserve">현재 값: production {0}, develop {1}, feature {2}, release {3}, hotfix {4}.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Keys" xml:space="preserve">저장된 키</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.KeysEmpty" xml:space="preserve">이 저장소에 저장된 gitflow.* 키가 없습니다.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ReadOnlyNone" xml:space="preserve">이 저장소에는 git-flow 키가 아직 없습니다. 먼저 Git Flow를 초기화하거나 사용 중인 git-flow 도구로 키를 설정하세요. 여기서는 변경할 수 없습니다.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ReadOnlyUnclassified" xml:space="preserve">이 저장소에 git-flow 키가 저장되어 있지만, 어떤 git-flow 도구가 이 키를 만들었는지 판별할 수 없습니다. 선택한 Git 실행 파일에서 git-flow가 감지되지 않고 gitflow.initialized도 true가 아닙니다. 아래 키는 확인용으로만 나열하며, 저장해도 변화가 없습니다.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.NextEditor" xml:space="preserve">git-flow-next는 각 브랜치를 별도의 키 맵(gitflow.branch.&lt;name&gt;.type|parent|prefix|...) 형태로 저장합니다. 기준 브랜치 이름을 바꾸면 그 키 맵 전체를 복사하고, parent/startpoint 참조를 새 이름으로 바꾸고, 마지막으로 이전 키를 삭제합니다. 실제 git 브랜치는 생성·이름 변경·삭제·체크아웃하지 않습니다. 위 목록에 없는 키(bugfix, support, 병합 전략, autoupdate)는 그대로 유지됩니다.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ReadOnlyInherited" xml:space="preserve">이 git-flow 키는 이 저장소 윗쪽의 설정 파일(사용자 또는 시스템)에 있습니다. 이 창은 저장소 자신의 설정만 쓰기 때문에 여기서는 읽기 전용으로 보입니다.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.ReadOnlyUnknown" xml:space="preserve">저장된 git-flow 키가 이 프로그램이 읽는 형식이 아닙니다(아래 키 참조). 두 형식을 섞어 쓰지 않도록 편집을 비활성화했습니다. 사용 중인 git-flow 도구로 수정하세요.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.Saved" xml:space="preserve">Git Flow 설정을 저장했습니다.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveFailed" xml:space="preserve">저장하지 못한 키: {0}</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveLeftover" xml:space="preserve">되돌릴 수 없어 아래 키가 저장소에 남아 있습니다: {0}. 아래 커맨드로 정리한 뒤 다시 저장하세요:
+{1}</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveInherited" xml:space="preserve">이 키들은 이 저장소보다 상위의 설정 파일(전역 또는 시스템)에만 있어서 이 창이 쓰지 않습니다: {0}. 여기서는 아무것도 바꾸지 않았습니다. 그 파일을 고치거나 이 저장소에서 git-flow를 먼저 초기화하세요.</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveReadFailed" xml:space="preserve">이 저장소 자체의 설정 파일을 읽지 못해 아무것도 쓰지 않았습니다. Git이 보고한 원인: {0}</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveErrorUnknown" xml:space="preserve">Git이 원인을 보고하지 않았습니다</x:String>
+  <x:String x:Key="Text.GitFlow.Settings.SaveError" xml:space="preserve">Git이 보고한 원인: {0}</x:String>
+  <x:String x:Key="Text.GitFlow.StartAt" xml:space="preserve">시작 지점:</x:String>
   <x:String x:Key="Text.GitFlow.StartFeature" xml:space="preserve">Feature 시작...</x:String>
   <x:String x:Key="Text.GitFlow.StartFeatureTitle" xml:space="preserve">FLOW - Feature 시작</x:String>
   <x:String x:Key="Text.GitFlow.StartHotfix" xml:space="preserve">Hotfix 시작...</x:String>
   <x:String x:Key="Text.GitFlow.StartHotfixTitle" xml:space="preserve">FLOW - Hotfix 시작</x:String>
+  <x:String x:Key="Text.GitFlow.StartName" xml:space="preserve">이름:</x:String>
   <x:String x:Key="Text.GitFlow.StartPlaceholder" xml:space="preserve">이름 입력</x:String>
   <x:String x:Key="Text.GitFlow.StartRelease" xml:space="preserve">Release 시작...</x:String>
   <x:String x:Key="Text.GitFlow.StartReleaseTitle" xml:space="preserve">FLOW - Release 시작</x:String>
@@ -473,6 +617,7 @@
   <x:String x:Key="Text.GitLFS.Track" xml:space="preserve">'{0}' 이름의 파일 추적</x:String>
   <x:String x:Key="Text.GitLFS.TrackByExtension" xml:space="preserve">모든 *{0} 파일 추적</x:String>
   <x:String x:Key="Text.GotoRevisionSelector" xml:space="preserve">커밋 선택</x:String>
+  <x:String x:Key="Text.Histories.AdvancedOptions" xml:space="preserve">고급 옵션</x:String>
   <x:String x:Key="Text.Histories.Header.Author" xml:space="preserve">작성자</x:String>
   <x:String x:Key="Text.Histories.Header.AuthorTime" xml:space="preserve">작성 시간</x:String>
   <x:String x:Key="Text.Histories.Header.CommitTime" xml:space="preserve">커밋 시간</x:String>
@@ -483,6 +628,7 @@
   <x:String x:Key="Text.Histories.HighlightsInGraph.CurrentBranchOnly" xml:space="preserve">현재 브랜치만</x:String>
   <x:String x:Key="Text.Histories.HighlightsInGraph.CurrentBranchAndSelectedCommits" xml:space="preserve">현재 브랜치와 선택한 커밋</x:String>
   <x:String x:Key="Text.Histories.HighlightsInGraph.SelectedCommitsOnly" xml:space="preserve">선택한 커밋만</x:String>
+  <x:String x:Key="Text.Histories.HighlightsInGraph.SelectedCommitsOnlyFirstParent" xml:space="preserve">선택한 커밋 (첫 번째 부모만)</x:String>
   <x:String x:Key="Text.Histories.Selected" xml:space="preserve">{0}개 커밋 선택됨</x:String>
   <x:String x:Key="Text.Histories.ShowColumns" xml:space="preserve">표시할 역</x:String>
   <x:String x:Key="Text.Histories.Tips" xml:space="preserve">'Ctrl' 또는 'Shift' 키를 누른 채로 여러 커밋을 선택하세요.</x:String>
@@ -515,7 +661,10 @@
   <x:String x:Key="Text.Hotkeys.Repo.Pull" xml:space="preserve">Pull (바로 시작)</x:String>
   <x:String x:Key="Text.Hotkeys.Repo.Push" xml:space="preserve">푸시 (바로 시작)</x:String>
   <x:String x:Key="Text.Hotkeys.Repo.Refresh" xml:space="preserve">이 저장소 강제 새로고침</x:String>
+  <x:String x:Key="Text.Hotkeys.Repo.ToggleCommitDetailPanel" xml:space="preserve">커밋 세부 정보 패널 펼치기/접기</x:String>
+  <x:String x:Key="Text.Hotkeys.Repo.ToggleSearchCommits" xml:space="preserve">커밋 검색 패널 표시/숨기기</x:String>
   <x:String x:Key="Text.Hotkeys.Repo.ViewChanges" xml:space="preserve">'변경 사항'으로 전환</x:String>
+  <x:String x:Key="Text.Hotkeys.Repo.ViewDashboard" xml:space="preserve">'대시보드'로 전환</x:String>
   <x:String x:Key="Text.Hotkeys.Repo.ViewStashes" xml:space="preserve">'스태시'로 전환</x:String>
   <x:String x:Key="Text.Hunk.Discard" xml:space="preserve">폐기</x:String>
   <x:String x:Key="Text.Hunk.Stage" xml:space="preserve">스테이지</x:String>
@@ -533,16 +682,33 @@
   <x:String x:Key="Text.InProgress.Revert" xml:space="preserve">되돌리기 진행 중.</x:String>
   <x:String x:Key="Text.InProgress.Revert.Head" xml:space="preserve">커밋 되돌리는 중</x:String>
   <x:String x:Key="Text.InteractiveRebase" xml:space="preserve">대화형 리베이스</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Drop" xml:space="preserve">삭제</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Edit" xml:space="preserve">수정</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Fixup" xml:space="preserve">이전에 합치기(메시지 폐기)</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Pick" xml:space="preserve">피킹</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Reword" xml:space="preserve">메시지 수정</x:String>
+  <x:String x:Key="Text.InteractiveRebase.Action.Squash" xml:space="preserve">이전에 합치기</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Drop" xml:space="preserve">커밋을 제거</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Edit" xml:space="preserve">amend를 위해 중지</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Fixup" xml:space="preserve">'합치기'와 같지만 메시지를 폐기</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Pick" xml:space="preserve">이 커밋을 사용</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Reword" xml:space="preserve">커밋 메시지를 편집</x:String>
+  <x:String x:Key="Text.InteractiveRebase.ActionDesc.Squash" xml:space="preserve">이전 커밋에 합침</x:String>
   <x:String x:Key="Text.InteractiveRebase.AutoStash" xml:space="preserve">로컬 변경 사항 스태시 &amp; 재적용</x:String>
+  <x:String x:Key="Text.InteractiveRebase.EditMessage" xml:space="preserve">커밋 메시지 편집</x:String>
+  <x:String x:Key="Text.InteractiveRebase.MoveDown" xml:space="preserve">아래로 이동</x:String>
+  <x:String x:Key="Text.InteractiveRebase.MoveUp" xml:space="preserve">위로 이동</x:String>
   <x:String x:Key="Text.InteractiveRebase.NoVerify" xml:space="preserve">pre-rebase 훅 건너뛰기</x:String>
   <x:String x:Key="Text.InteractiveRebase.On" xml:space="preserve">기준:</x:String>
   <x:String x:Key="Text.InteractiveRebase.ReorderTip" xml:space="preserve">드래그 앤 드롭으로 커밋 순서 변경</x:String>
+  <x:String x:Key="Text.InteractiveRebase.SelectAction" xml:space="preserve">작업 선택</x:String>
   <x:String x:Key="Text.InteractiveRebase.Target" xml:space="preserve">대상 브랜치:</x:String>
   <x:String x:Key="Text.IssueLinkCM.CopyLink" xml:space="preserve">링크 복사</x:String>
   <x:String x:Key="Text.IssueLinkCM.OpenInBrowser" xml:space="preserve">브라우저에서 열기</x:String>
   <x:String x:Key="Text.Launcher.Commands" xml:space="preserve">명령</x:String>
   <x:String x:Key="Text.Launcher.Error" xml:space="preserve">오류</x:String>
   <x:String x:Key="Text.Launcher.Info" xml:space="preserve">알림</x:String>
+  <x:String x:Key="Text.Launcher.NewVersion" xml:space="preserve">새 버전을 사용할 수 있습니다</x:String>
   <x:String x:Key="Text.Launcher.OpenRepository" xml:space="preserve">저장소 열기</x:String>
   <x:String x:Key="Text.Launcher.Pages" xml:space="preserve">탭</x:String>
   <x:String x:Key="Text.Launcher.Workspaces" xml:space="preserve">작업 공간</x:String>
@@ -586,6 +752,8 @@
   <x:String x:Key="Text.Open" xml:space="preserve">열기</x:String>
   <x:String x:Key="Text.Open.SystemDefaultEditor" xml:space="preserve">시스템 기본 편집기</x:String>
   <x:String x:Key="Text.OpenAppDataDir" xml:space="preserve">데이터 저장 디렉터리 열기</x:String>
+  <x:String x:Key="Text.OpenAppDataDir.Cache" xml:space="preserve">캐시</x:String>
+  <x:String x:Key="Text.OpenAppDataDir.Config" xml:space="preserve">설정</x:String>
   <x:String x:Key="Text.OpenFile" xml:space="preserve">파일 열기</x:String>
   <x:String x:Key="Text.OpenInExternalMergeTool" xml:space="preserve">병합 도구에서 열기</x:String>
   <x:String x:Key="Text.OpenLocalRepository" xml:space="preserve">로컬 저장소 열기</x:String>
@@ -617,10 +785,12 @@
   <x:String x:Key="Text.Preferences.AI" xml:space="preserve">AI</x:String>
   <x:String x:Key="Text.Preferences.AI.AdditionalPrompt" xml:space="preserve">추가 프롬프트(`-`로 요구 사항 나열)</x:String>
   <x:String x:Key="Text.Preferences.AI.ApiKey" xml:space="preserve">API 키</x:String>
+  <x:String x:Key="Text.Preferences.AI.ExtraHeaders" xml:space="preserve">추가 헤더 (한 줄에 `Name: Value` 형식으로 입력)</x:String>
   <x:String x:Key="Text.Preferences.AI.Model" xml:space="preserve">모델</x:String>
   <x:String x:Key="Text.Preferences.AI.Model.AutoFetchAvailableModels" xml:space="preserve">사용 가능한 모델 ID 자동 가져오기</x:String>
   <x:String x:Key="Text.Preferences.AI.Name" xml:space="preserve">이름</x:String>
   <x:String x:Key="Text.Preferences.AI.ReadApiKeyFromEnv" xml:space="preserve">입력된 값은 환경변수(ENV)에서 API 키를 불러올 이름입니다</x:String>
+  <x:String x:Key="Text.Preferences.AI.ReasoningEffortLevel" xml:space="preserve">추론 노력 수준</x:String>
   <x:String x:Key="Text.Preferences.AI.Server" xml:space="preserve">서버</x:String>
   <x:String x:Key="Text.Preferences.Appearance" xml:space="preserve">모양</x:String>
   <x:String x:Key="Text.Preferences.Appearance.DefaultFont" xml:space="preserve">기본 글꼴</x:String>
@@ -682,6 +852,7 @@
   <x:String x:Key="Text.Preferences.Integration" xml:space="preserve">연동</x:String>
   <x:String x:Key="Text.Preferences.Shell" xml:space="preserve">셸/터미널</x:String>
   <x:String x:Key="Text.Preferences.Shell.Args" xml:space="preserve">인수</x:String>
+  <x:String x:Key="Text.Preferences.Shell.Args.ToolTip" xml:space="preserve">'.'을 사용하면 작업 디렉터리를, '$FOLDER_NAME'을 사용하면 해당 작업 디렉터리의 폴더 이름만 나타냅니다.</x:String>
   <x:String x:Key="Text.Preferences.Shell.Path" xml:space="preserve">경로</x:String>
   <x:String x:Key="Text.Preferences.Shell.Type" xml:space="preserve">셸/터미널</x:String>
   <x:String x:Key="Text.PruneRemote" xml:space="preserve">원격 정리</x:String>
@@ -727,6 +898,7 @@
   <x:String x:Key="Text.Remote.EditTitle" xml:space="preserve">원격 편집</x:String>
   <x:String x:Key="Text.Remote.Name" xml:space="preserve">이름:</x:String>
   <x:String x:Key="Text.Remote.Name.Placeholder" xml:space="preserve">원격 이름</x:String>
+  <x:String x:Key="Text.Remote.ResetPushURL" xml:space="preserve">푸시 URL을 이 저장소 URL로 재설정</x:String>
   <x:String x:Key="Text.Remote.URL" xml:space="preserve">저장소 URL:</x:String>
   <x:String x:Key="Text.Remote.URL.Placeholder" xml:space="preserve">원격 git 저장소 URL</x:String>
   <x:String x:Key="Text.RemoteCM.CopyURL" xml:space="preserve">URL 복사</x:String>
@@ -737,6 +909,7 @@
   <x:String x:Key="Text.RemoteCM.Fetch" xml:space="preserve">Fetch</x:String>
   <x:String x:Key="Text.RemoteCM.OpenInBrowser" xml:space="preserve">브라우저에서 열기</x:String>
   <x:String x:Key="Text.RemoteCM.Prune" xml:space="preserve">정리</x:String>
+  <x:String x:Key="Text.RemoteCM.SetPushURL" xml:space="preserve">푸시 URL 설정...</x:String>
   <x:String x:Key="Text.RemoveWorktree" xml:space="preserve">워크트리 제거 확인</x:String>
   <x:String x:Key="Text.RemoveWorktree.Force" xml:space="preserve">`--force` 옵션 활성화</x:String>
   <x:String x:Key="Text.RemoveWorktree.Target" xml:space="preserve">대상:</x:String>
@@ -761,9 +934,12 @@
   <x:String x:Key="Text.Repository.Explore" xml:space="preserve">파일 탐색기에서 열기</x:String>
   <x:String x:Key="Text.Repository.Filter" xml:space="preserve">브랜치/태그/서브모듈 검색</x:String>
   <x:String x:Key="Text.Repository.FilterCommits" xml:space="preserve">그래프에 표시 여부</x:String>
+  <x:String x:Key="Text.Repository.FilterCommits.Collapse" xml:space="preserve">필터 접기</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Default" xml:space="preserve">설정 안 함</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Exclude" xml:space="preserve">커밋 그래프에서 숨기기</x:String>
+  <x:String x:Key="Text.Repository.FilterCommits.Expand" xml:space="preserve">필터 펼치기</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Include" xml:space="preserve">커밋 그래프에서 필터링</x:String>
+  <x:String x:Key="Text.Repository.FilterCommits.Summary" xml:space="preserve">개의 필터 사용 중</x:String>
   <x:String x:Key="Text.Repository.HistoriesLayout" xml:space="preserve">레이아웃</x:String>
   <x:String x:Key="Text.Repository.HistoriesLayout.Horizontal" xml:space="preserve">수평</x:String>
   <x:String x:Key="Text.Repository.HistoriesLayout.Vertical" xml:space="preserve">수직</x:String>
@@ -787,6 +963,8 @@
   <x:String x:Key="Text.Repository.Search.ByPath" xml:space="preserve">경로</x:String>
   <x:String x:Key="Text.Repository.Search.BySHA" xml:space="preserve">SHA</x:String>
   <x:String x:Key="Text.Repository.Search.InCurrentBranch" xml:space="preserve">현재 브랜치</x:String>
+  <x:String x:Key="Text.Repository.Search.Method" xml:space="preserve">검색 기준</x:String>
+  <x:String x:Key="Text.Repository.Search.ToolTip" xml:space="preserve">커밋 검색</x:String>
   <x:String x:Key="Text.Repository.ShowDecoratedCommitsOnly" xml:space="preserve">장식된(Decorated) 커밋만</x:String>
   <x:String x:Key="Text.Repository.ShowFirstParentOnly" xml:space="preserve">첫 번째 부모만</x:String>
   <x:String x:Key="Text.Repository.ShowFlags" xml:space="preserve">플래그 표시</x:String>
@@ -812,6 +990,16 @@
   <x:String x:Key="Text.RepositoryURL" xml:space="preserve">Git 저장소 URL</x:String>
   <x:String x:Key="Text.Reset" xml:space="preserve">현재 브랜치를 리비전으로 리셋</x:String>
   <x:String x:Key="Text.Reset.Mode" xml:space="preserve">리셋 모드:</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Hard" xml:space="preserve">모든 변경 사항을 폐기</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Keep" xml:space="preserve">로컬 수정 사항을 유지하며 리셋</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Merge" xml:space="preserve">병합되지 않은 변경 사항을 유지하며 리셋</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Mixed" xml:space="preserve">모든 변경 사항을 유지하고 스테이지 해제</x:String>
+  <x:String x:Key="Text.Reset.Mode.Desc.Soft" xml:space="preserve">모든 변경 사항을 유지하고 스테이지에 반영</x:String>
+  <x:String x:Key="Text.Reset.Mode.Hard" xml:space="preserve">완전</x:String>
+  <x:String x:Key="Text.Reset.Mode.Keep" xml:space="preserve">보존</x:String>
+  <x:String x:Key="Text.Reset.Mode.Merge" xml:space="preserve">병합</x:String>
+  <x:String x:Key="Text.Reset.Mode.Mixed" xml:space="preserve">혼합</x:String>
+  <x:String x:Key="Text.Reset.Mode.Soft" xml:space="preserve">소프트</x:String>
   <x:String x:Key="Text.Reset.MoveTo" xml:space="preserve">이동 대상:</x:String>
   <x:String x:Key="Text.Reset.Target" xml:space="preserve">현재 브랜치:</x:String>
   <x:String x:Key="Text.ResetWithoutCheckout" xml:space="preserve">브랜치 리셋 (체크아웃 없음)</x:String>
@@ -837,6 +1025,10 @@
   <x:String x:Key="Text.SelfUpdate.ReleaseDate" xml:space="preserve">새 버전 릴리스 날짜:</x:String>
   <x:String x:Key="Text.SelfUpdate.Title" xml:space="preserve">소프트웨어 업데이트</x:String>
   <x:String x:Key="Text.SelfUpdate.UpToDate" xml:space="preserve">현재 사용 가능한 업데이트가 없습니다.</x:String>
+  <x:String x:Key="Text.SetPushUrl" xml:space="preserve">원격의 푸시 URL 설정</x:String>
+  <x:String x:Key="Text.SetPushUrl.PushURL" xml:space="preserve">푸시 URL:</x:String>
+  <x:String x:Key="Text.SetPushUrl.Remote" xml:space="preserve">원격:</x:String>
+  <x:String x:Key="Text.SetPushUrl.URL" xml:space="preserve">URL:</x:String>
   <x:String x:Key="Text.SetSubmoduleBranch" xml:space="preserve">서브모듈 브랜치 설정</x:String>
   <x:String x:Key="Text.SetSubmoduleBranch.Submodule" xml:space="preserve">서브모듈:</x:String>
   <x:String x:Key="Text.SetSubmoduleBranch.Current" xml:space="preserve">현재:</x:String>
@@ -850,14 +1042,38 @@
   <x:String x:Key="Text.SHALinkCM.NavigateTo" xml:space="preserve">이동</x:String>
   <x:String x:Key="Text.SSHKey" xml:space="preserve">SSH 개인 키:</x:String>
   <x:String x:Key="Text.SSHKey.Placeholder" xml:space="preserve">개인 SSH 키 저장 경로</x:String>
+  <x:String x:Key="Text.SSHKeyHelper" xml:space="preserve">SSH 키 헬퍼 열기</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.ConfirmDeletion" xml:space="preserve">정말 다음 키를 삭제하시겠습니까?</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Fingerprint" xml:space="preserve">핑거프린트</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator" xml:space="preserve">SSH 키 생성</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator.ConfirmPassphrase" xml:space="preserve">암호 확인:</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator.Email" xml:space="preserve">이메일:</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator.Email.Placeholder" xml:space="preserve">필수.</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator.Name" xml:space="preserve">키 이름:</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator.Name.Placeholder" xml:space="preserve">필수. 예: id_github</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator.Passphrase" xml:space="preserve">암호:</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator.Start" xml:space="preserve">생성</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator.Type" xml:space="preserve">유형:</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Generator.UsePassphrase" xml:space="preserve">개인키에 암호 사용</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Path" xml:space="preserve">경로</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.PublicKey" xml:space="preserve">공개 키</x:String>
+  <x:String x:Key="Text.SSHKeyHelper.Title" xml:space="preserve">SSH 키 헬퍼</x:String>
   <x:String x:Key="Text.Start" xml:space="preserve">시작</x:String>
   <x:String x:Key="Text.Stash" xml:space="preserve">스태시</x:String>
   <x:String x:Key="Text.Stash.IncludeUntracked" xml:space="preserve">추적하지 않는 파일 포함</x:String>
   <x:String x:Key="Text.Stash.Message" xml:space="preserve">메시지:</x:String>
   <x:String x:Key="Text.Stash.Message.Placeholder" xml:space="preserve">선택 사항. 이 스태시의 메시지</x:String>
   <x:String x:Key="Text.Stash.Mode" xml:space="preserve">모드:</x:String>
+  <x:String x:Key="Text.Stash.Mode.Discard" xml:space="preserve">폐기</x:String>
+  <x:String x:Key="Text.Stash.Mode.Discard.Desc" xml:space="preserve">모든(또는 선택한) 변경 사항이 폐기됩니다</x:String>
+  <x:String x:Key="Text.Stash.Mode.KeepAll" xml:space="preserve">모두 유지</x:String>
+  <x:String x:Key="Text.Stash.Mode.KeepAll.Desc" xml:space="preserve">모든(또는 선택한) 변경 사항이 그대로 유지됩니다</x:String>
+  <x:String x:Key="Text.Stash.Mode.KeepIndex" xml:space="preserve">인덱스 유지</x:String>
+  <x:String x:Key="Text.Stash.Mode.KeepIndex.Desc" xml:space="preserve">스테이징된 변경 사항이 그대로 유지됩니다</x:String>
   <x:String x:Key="Text.Stash.OnlyStagedChanges" xml:space="preserve">스테이징된 변경 사항만</x:String>
   <x:String x:Key="Text.Stash.TipForSelectedFiles" xml:space="preserve">선택한 파일의 스테이징된 변경 사항과 스테이징되지 않은 변경 사항이 모두 스태시됩니다!!!</x:String>
+  <x:String x:Key="Text.Stash.TipIncludeUntracked" xml:space="preserve">--include-untracked를 사용합니다.</x:String>
+  <x:String x:Key="Text.Stash.TipOnlyStaged" xml:space="preserve">--staged를 사용합니다. 일부만 스테이징된 파일은 스테이징되지 않은 부분까지 함께 스태시됩니다.</x:String>
   <x:String x:Key="Text.Stash.Title" xml:space="preserve">로컬 변경 사항 스태시</x:String>
   <x:String x:Key="Text.StashCM.Apply" xml:space="preserve">적용</x:String>
   <x:String x:Key="Text.StashCM.ApplyFileChanges" xml:space="preserve">변경 사항 적용</x:String>
@@ -871,9 +1087,15 @@
   <x:String x:Key="Text.Stashes.Changes" xml:space="preserve">변경 사항</x:String>
   <x:String x:Key="Text.Stashes.Stashes" xml:space="preserve">스태시</x:String>
   <x:String x:Key="Text.Statistics" xml:space="preserve">통계</x:String>
+  <x:String x:Key="Text.Statistics.Commits" xml:space="preserve">커밋</x:String>
   <x:String x:Key="Text.Statistics.Overview" xml:space="preserve">개요</x:String>
   <x:String x:Key="Text.Statistics.ThisMonth" xml:space="preserve">이번 달</x:String>
   <x:String x:Key="Text.Statistics.ThisWeek" xml:space="preserve">이번 주</x:String>
+  <x:String x:Key="Text.Statistics.Tips" xml:space="preserve">SourceGit은 분석을 위해 대상 브랜치를 기준으로 최대 200,000개의 커밋만 가져옵니다.</x:String>
+  <x:String x:Key="Text.Statistics.TopAuthors" xml:space="preserve">주요 작성자</x:String>
+  <x:String x:Key="Text.Statistics.TopAuthors.Count" xml:space="preserve">커밋</x:String>
+  <x:String x:Key="Text.Statistics.TopAuthors.Percentage" xml:space="preserve">비율</x:String>
+  <x:String x:Key="Text.Statistics.TopAuthors.Tip" xml:space="preserve">커밋 비중이 1% 미만인 작성자는 Others로 묶입니다.</x:String>
   <x:String x:Key="Text.Statistics.TotalAuthors" xml:space="preserve">작성자: </x:String>
   <x:String x:Key="Text.Statistics.TotalCommits" xml:space="preserve">커밋: </x:String>
   <x:String x:Key="Text.Submodule" xml:space="preserve">서브모듈</x:String>
@@ -903,6 +1125,7 @@
   <x:String x:Key="Text.Sure" xml:space="preserve">확인</x:String>
   <x:String x:Key="Text.Tag.Tagger" xml:space="preserve">태그 생성자</x:String>
   <x:String x:Key="Text.Tag.Time" xml:space="preserve">시간</x:String>
+  <x:String x:Key="Text.TagCM.Checkout" xml:space="preserve">태그 체크아웃...</x:String>
   <x:String x:Key="Text.TagCM.CompareTwo" xml:space="preserve">태그 2개 비교</x:String>
   <x:String x:Key="Text.TagCM.CompareWith" xml:space="preserve">다음과 비교...</x:String>
   <x:String x:Key="Text.TagCM.CompareWithHead" xml:space="preserve">HEAD와 비교</x:String>
@@ -913,13 +1136,29 @@
   <x:String x:Key="Text.TagCM.CustomAction" xml:space="preserve">사용자 지정 작업</x:String>
   <x:String x:Key="Text.TagCM.Delete" xml:space="preserve">${0}$ 삭제...</x:String>
   <x:String x:Key="Text.TagCM.DeleteMultiple" xml:space="preserve">선택한 {0}개의 태그 삭제...</x:String>
+  <x:String x:Key="Text.TagCM.Merge" xml:space="preserve">${0}$을(를) ${1}$(으)로 병합...</x:String>
   <x:String x:Key="Text.TagCM.Push" xml:space="preserve">${0}$ 푸시...</x:String>
+  <x:String x:Key="Text.Terminal.NotSpecified" xml:space="preserve">터미널이 지정되지 않았습니다! 올바른 셸/터미널이 설정되었는지 확인해 주세요.</x:String>
+  <x:String x:Key="Text.Terminate" xml:space="preserve">중지</x:String>
+  <x:String x:Key="Text.TrustRepository" xml:space="preserve">신뢰하지 않은 저장소</x:String>
+  <x:String x:Key="Text.TrustRepository.CommandTip" xml:space="preserve">`git config --global --add safe.directory {0}` 명령을 실행하여 이 경로를 신뢰하시겠습니까?</x:String>
+  <x:String x:Key="Text.TrustRepository.Description" xml:space="preserve">Git이 이 저장소에 접근하는 것을 거부했습니다:  </x:String>
+  <x:String x:Key="Text.TrustRepository.Path" xml:space="preserve">경로:</x:String>
+  <x:String x:Key="Text.TrustRepository.ScanSkipped" xml:space="preserve">git이 신뢰하지 않아 {0}개 저장소를 건너뛰었습니다. 직접 열어서 신뢰 여부를 확인하세요.</x:String>
   <x:String x:Key="Text.UpdateSubmodules" xml:space="preserve">서브모듈 업데이트</x:String>
   <x:String x:Key="Text.UpdateSubmodules.All" xml:space="preserve">모든 서브모듈</x:String>
   <x:String x:Key="Text.UpdateSubmodules.Init" xml:space="preserve">필요시 초기화</x:String>
+  <x:String x:Key="Text.UpdateSubmodules.Recursive" xml:space="preserve">중첩된 서브모듈도 업데이트</x:String>
   <x:String x:Key="Text.UpdateSubmodules.Target" xml:space="preserve">서브모듈:</x:String>
   <x:String x:Key="Text.UpdateSubmodules.UpdateToRemoteTrackingBranch" xml:space="preserve">서브모듈의 원격 추적 브랜치로 업데이트</x:String>
   <x:String x:Key="Text.URL" xml:space="preserve">URL:</x:String>
+  <x:String x:Key="Text.Validation.BadTagName" xml:space="preserve">태그 이름 형식이 올바르지 않습니다!</x:String>
+  <x:String x:Key="Text.Validation.BranchExists" xml:space="preserve">{0} 이름의 브랜치가 이미 존재합니다!</x:String>
+  <x:String x:Key="Text.Validation.InvalidBranchName" xml:space="preserve">{0}은(는) 유효한 브랜치 이름이 아닙니다!</x:String>
+  <x:String x:Key="Text.Validation.PathNotEmpty" xml:space="preserve">지정한 경로가 비어 있지 않습니다!</x:String>
+  <x:String x:Key="Text.Validation.PathRequired" xml:space="preserve">워크트리 경로는 필수입니다!</x:String>
+  <x:String x:Key="Text.Validation.TagExists" xml:space="preserve">같은 이름의 태그가 이미 존재합니다!</x:String>
+  <x:String x:Key="Text.Validation.TagNameRequired" xml:space="preserve">태그 이름은 필수입니다!</x:String>
   <x:String x:Key="Text.ViewLogs" xml:space="preserve">로그</x:String>
   <x:String x:Key="Text.ViewLogs.Clear" xml:space="preserve">모두 지우기</x:String>
   <x:String x:Key="Text.ViewLogs.CopyLog" xml:space="preserve">복사</x:String>
@@ -944,10 +1183,12 @@
   <x:String x:Key="Text.WorkingCopy.AddToGitIgnore.ExtensionInSameFolder" xml:space="preserve">같은 폴더의 *{0} 파일 무시</x:String>
   <x:String x:Key="Text.WorkingCopy.AddToGitIgnore.InFolder" xml:space="preserve">이 폴더의 추적하지 않는 파일 무시</x:String>
   <x:String x:Key="Text.WorkingCopy.AddToGitIgnore.SingleFile" xml:space="preserve">이 파일만 무시</x:String>
+  <x:String x:Key="Text.WorkingCopy.AddToGitIgnore.UntrackedInSameFolder" xml:space="preserve">같은 폴더의 모든 추적하지 않는 파일 무시</x:String>
   <x:String x:Key="Text.WorkingCopy.Amend" xml:space="preserve">수정</x:String>
   <x:String x:Key="Text.WorkingCopy.CanStageTip" xml:space="preserve">이제 이 파일을 스테이징할 수 있습니다.</x:String>
   <x:String x:Key="Text.WorkingCopy.ClearCommitHistories" xml:space="preserve">히스토리 지우기</x:String>
   <x:String x:Key="Text.WorkingCopy.ClearCommitHistories.Confirm" xml:space="preserve">모든 커밋 메시지 히스토리를 지우시겠습니까? 이 작업은 되돌릴 수 없습니다.</x:String>
+  <x:String x:Key="Text.WorkingCopy.CollapseSidebar" xml:space="preserve">사이드바 숨기기</x:String>
   <x:String x:Key="Text.WorkingCopy.Commit" xml:space="preserve">커밋</x:String>
   <x:String x:Key="Text.WorkingCopy.CommitAndPush" xml:space="preserve">커밋 &amp; 푸시</x:String>
   <x:String x:Key="Text.WorkingCopy.CommitMessageHelper" xml:space="preserve">템플릿/히스토리</x:String>
@@ -963,6 +1204,9 @@
   <x:String x:Key="Text.WorkingCopy.Conflicts.Resolved" xml:space="preserve">파일 충돌 해결됨</x:String>
   <x:String x:Key="Text.WorkingCopy.Conflicts.UseMine" xml:space="preserve">내 것 사용</x:String>
   <x:String x:Key="Text.WorkingCopy.Conflicts.UseTheirs" xml:space="preserve">상대방 것 사용</x:String>
+  <x:String x:Key="Text.WorkingCopy.DiscardAll" xml:space="preserve">모든 변경 사항 폐기</x:String>
+  <x:String x:Key="Text.WorkingCopy.ExpandSidebar" xml:space="preserve">사이드바 표시</x:String>
+  <x:String x:Key="Text.WorkingCopy.FilterChanges" xml:space="preserve">변경 사항 필터...</x:String>
   <x:String x:Key="Text.WorkingCopy.IncludeUntracked" xml:space="preserve">추적하지 않는 파일 포함</x:String>
   <x:String x:Key="Text.WorkingCopy.NoCommitHistories" xml:space="preserve">최근 입력한 메시지 없음</x:String>
   <x:String x:Key="Text.WorkingCopy.NoCommitTemplates" xml:space="preserve">커밋 템플릿 없음</x:String>

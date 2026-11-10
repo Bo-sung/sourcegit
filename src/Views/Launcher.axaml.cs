@@ -42,6 +42,9 @@ namespace SourceGit.Views
                 CaptionHeight = new GridLength(38);
 
             InitializeComponent();
+            // At 150% DPI, 960x600 DIPs provides the Classic POC's 1440x900 pixel target.
+            if (ViewModels.Preferences.Instance.IsClassicLayoutActive)
+                MinWidth = 960;
             PositionChanged += OnPositionChanged;
 
             var layout = ViewModels.Preferences.Instance.Layout;
@@ -253,14 +256,20 @@ namespace SourceGit.Views
 
                 if (vm.ActivePage.Data is ViewModels.Repository repo)
                 {
+                    // Ctrl+1/2/3 follow the page order the user can see. The original rail starts with
+                    // the Dashboard and keeps its historical mapping; the Classic navigation lists File
+                    // Status first, like SourceTree does, so its first two slots are swapped. The third
+                    // slot is the stash page in both layouts, and nothing changes in the original mode.
+                    bool classic = ViewModels.Preferences.Instance.IsClassicLayoutActive;
+
                     switch (e.Key)
                     {
                         case Key.D1 or Key.NumPad1:
-                            repo.SelectedViewIndex = 0;
+                            repo.SelectedViewIndex = classic ? 1 : 0;
                             e.Handled = true;
                             return;
                         case Key.D2 or Key.NumPad2:
-                            repo.SelectedViewIndex = 1;
+                            repo.SelectedViewIndex = classic ? 0 : 1;
                             e.Handled = true;
                             return;
                         case Key.D3 or Key.NumPad3:

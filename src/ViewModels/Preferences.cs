@@ -20,6 +20,7 @@ namespace SourceGit.ViewModels
                     return _instance;
 
                 _instance = Load();
+                _instance.IsClassicLayoutActive = _instance.Layout.UseClassicLayout;
                 _instance._isLoading = false;
 
                 _instance.PrepareGit();
@@ -30,6 +31,9 @@ namespace SourceGit.ViewModels
                 return _instance;
             }
         }
+
+        [JsonIgnore]
+        public bool IsClassicLayoutActive { get; private set; }
 
         public string Locale
         {

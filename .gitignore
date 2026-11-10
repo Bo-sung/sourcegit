@@ -45,3 +45,11 @@ SourceGit.app/
 build.command
 src/Properties/launchSettings.json
 *.lscache
+
+# QA run output: disposable fixture repositories, GUI captures, UI-tree dumps, logs.
+# Referenced by docs as unversioned local evidence; never a source deliverable.
+/artifacts/
+
+# Local agent/orchestration tooling state (normally lives outside the repository).
+/.orca/
+/.pi/

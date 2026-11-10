@@ -5,6 +5,8 @@ namespace SourceGit.ViewModels
 {
     public class LayoutInfo : ObservableObject
     {
+        public bool UseClassicLayout { get; set; }
+
         public double LauncherWidth
         {
             get;

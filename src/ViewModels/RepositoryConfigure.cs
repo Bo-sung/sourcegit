@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 using Avalonia.Collections;
@@ -22,6 +23,15 @@ namespace SourceGit.ViewModels
         }
 
         public List<string> Remotes
+        {
+            get;
+        }
+
+        /// <summary>
+        /// The remote list for the default-remote chooser. It keeps one empty entry first,
+        /// so an unset default stays visible and can be selected again to clear a set default.
+        /// </summary>
+        public List<string> RemotesWithAuto
         {
             get;
         }
@@ -54,20 +64,112 @@ namespace SourceGit.ViewModels
 
         public bool GPGCommitSigningEnabled
         {
-            get;
-            set;
+            get => _gpgCommitSign;
+            set
+            {
+                if (SetProperty(ref _gpgCommitSign, value))
+                    RaiseSigningInfoChanged();
+            }
         }
 
         public bool GPGTagSigningEnabled
         {
-            get;
-            set;
+            get => _gpgTagSign;
+            set
+            {
+                if (SetProperty(ref _gpgTagSign, value))
+                    RaiseSigningInfoChanged();
+            }
         }
 
         public string GPGUserSigningKey
         {
-            get;
-            set;
+            get => _gpgUserSigningKey;
+            set
+            {
+                if (SetProperty(ref _gpgUserSigningKey, value))
+                    RaiseSigningInfoChanged();
+            }
+        }
+
+        /// <summary>
+        /// The checkboxes above only cover commit.gpgsign and tag.gpgsign. Whether a signed commit can
+        /// actually run also depends on gpg.format and the signing program, and those are not editable
+        /// here, so state the effective values: a repository value first, then the global value, then
+        /// Git's own default (openpgp / gpg).
+        /// </summary>
+        public string SigningFormat
+        {
+            get; private set;
+        }
+
+        public string SigningProgram
+        {
+            get; private set;
+        }
+
+        /// <summary>A configured program path that does not exist; a bare name is resolved by Git itself.</summary>
+        public bool HasSigningProgramMissing
+        {
+            get; private set;
+        }
+
+        /// <summary>Signed commits are requested without any user.signingkey.</summary>
+        public bool HasSigningKeyMissing
+        {
+            get; private set;
+        }
+
+        /// <summary>Git's own commit.template, the other source of commit-message templates.</summary>
+        public string GitCommitTemplatePath
+        {
+            get; private set;
+        }
+
+        public bool HasGitCommitTemplate
+        {
+            get; private set;
+        }
+
+        public bool HasGitCommitTemplateMissing
+        {
+            get; private set;
+        }
+
+        /// <summary>Shared issue-tracker rules live in this file, private ones in the local Git config.</summary>
+        public string IssueTrackerSharedPath
+        {
+            get => $"{_repo.FullPath}/.issuetracker";
+        }
+
+        public bool HasIssueTrackerSharedFile
+        {
+            get; private set;
+        }
+
+        private void RaiseSigningInfoChanged()
+        {
+            var fmt = _cached.GetValueOrDefault("gpg.format", "");
+            var model = Models.GPGFormat.Supported.Find(x => x.Value.Equals(fmt, StringComparison.OrdinalIgnoreCase));
+            if (model == null)
+            {
+                fmt = "openpgp";
+                model = Models.GPGFormat.Supported[0];
+            }
+
+            var program = _cached.GetValueOrDefault($"gpg.{fmt}.program", "");
+            if (program.Length == 0)
+                program = _cached.GetValueOrDefault("gpg.program", model.Program);
+
+            SigningFormat = fmt;
+            SigningProgram = program;
+            HasSigningProgramMissing = (GPGCommitSigningEnabled || GPGTagSigningEnabled) && Path.IsPathRooted(program) && !File.Exists(program);
+            HasSigningKeyMissing = GPGCommitSigningEnabled && GPGUserSigningKey.Length == 0;
+
+            OnPropertyChanged(nameof(SigningFormat));
+            OnPropertyChanged(nameof(SigningProgram));
+            OnPropertyChanged(nameof(HasSigningProgramMissing));
+            OnPropertyChanged(nameof(HasSigningKeyMissing));
         }
 
         public string HttpProxy
@@ -160,6 +262,9 @@ namespace SourceGit.ViewModels
             foreach (var remote in _repo.Remotes)
                 Remotes.Add(remote.Name);
 
+            RemotesWithAuto = new List<string>(Remotes);
+            RemotesWithAuto.Insert(0, string.Empty);
+
             AvailableOpenAIServices = new List<string>() { "---" };
             foreach (var service in Preferences.Instance.OpenAIServices)
                 AvailableOpenAIServices.Add(service.Name);
@@ -193,6 +298,33 @@ namespace SourceGit.ViewModels
                     URLTemplate = rule.URLTemplate,
                 });
             }
+
+            HasIssueTrackerSharedFile = File.Exists(IssueTrackerSharedPath);
+            OnPropertyChanged(nameof(HasIssueTrackerSharedFile));
+
+            var template = _cached.GetValueOrDefault("commit.template", "");
+            HasGitCommitTemplate = template.Length > 0;
+            GitCommitTemplatePath = ExpandHomePath(template);
+            // Git resolves a relative commit.template against the repository root, while File.Exists
+            // would use this process's own working directory.
+            var absolute = GitCommitTemplatePath;
+            if (HasGitCommitTemplate && !Path.IsPathRooted(absolute))
+                absolute = Path.Combine(_repo.FullPath, absolute);
+            HasGitCommitTemplateMissing = HasGitCommitTemplate && !File.Exists(absolute);
+            OnPropertyChanged(nameof(GitCommitTemplatePath));
+            OnPropertyChanged(nameof(HasGitCommitTemplate));
+            OnPropertyChanged(nameof(HasGitCommitTemplateMissing));
+
+            RaiseSigningInfoChanged();
+        }
+
+        private static string ExpandHomePath(string value)
+        {
+            if (!value.StartsWith("~/", StringComparison.Ordinal) && !value.StartsWith("~\\", StringComparison.Ordinal))
+                return value;
+
+            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            return Path.Combine(home, value.Substring(2));
         }
 
         public void ClearHttpProxy()
@@ -230,13 +362,36 @@ namespace SourceGit.ViewModels
             var rule = new Models.IssueTracker()
             {
                 IsShared = false,
-                Name = name,
+                Name = GetUniqueIssueTrackerName(name),
                 RegexString = regex,
                 URLTemplate = url,
             };
 
             IssueTrackers.Add(rule);
             SelectedIssueTracker = rule;
+        }
+
+        /// <summary>
+        /// Rules are stored under issuetracker.&lt;name&gt;, so two rules with one name cannot both survive
+        /// a save. Give a new rule a unique name right away instead of adding a second row that would
+        /// overwrite the first one, or hit the duplicate key when the save collects the old rules.
+        /// </summary>
+        private string GetUniqueIssueTrackerName(string name)
+        {
+            var names = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var rule in IssueTrackers)
+                names.Add(rule.Name);
+            foreach (var rule in _repo.IssueTrackers)
+                names.Add(rule.Name);
+
+            if (!names.Contains(name))
+                return name;
+
+            var index = 2;
+            while (names.Contains($"{name} ({index})"))
+                index++;
+
+            return $"{name} ({index})";
         }
 
         public void RemoveIssueTracker()
@@ -296,7 +451,11 @@ namespace SourceGit.ViewModels
             var changed = false;
             var oldRules = new Dictionary<string, Models.IssueTracker>();
             foreach (var rule in _repo.IssueTrackers)
-                oldRules.Add(rule.Name, rule);
+            {
+                // One name may exist both in the shared store and in the local config; keep the last one
+                // rather than throwing on the duplicate key and aborting the whole save.
+                oldRules[rule.Name] = rule;
+            }
 
             foreach (var rule in IssueTrackers)
             {
@@ -349,6 +508,9 @@ namespace SourceGit.ViewModels
 
         private readonly Repository _repo;
         private readonly Dictionary<string, string> _cached;
+        private bool _gpgCommitSign = false;
+        private bool _gpgTagSign = false;
+        private string _gpgUserSigningKey = "";
         private string _httpProxy;
         private Models.CommitTemplate _selectedCommitTemplate = null;
         private Models.IssueTracker _selectedIssueTracker = null;

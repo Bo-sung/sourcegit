@@ -23,28 +23,38 @@ namespace SourceGit.Commands
         public Dictionary<string, string> ReadAll()
         {
             Args = "config -l";
+            return Parse(ReadToEnd());
+        }
 
-            var output = ReadToEnd();
-            var rs = new Dictionary<string, string>();
-            if (output.IsSuccess)
-            {
-                var lines = output.StdOut.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-                foreach (var line in lines)
-                {
-                    var parts = line.Split('=', 2);
-                    if (parts.Length == 2)
-                        rs[parts[0]] = parts[1];
-                }
-            }
-
-            return rs;
+        /// <summary>
+        /// The repository's own config file only (`config --local -l`). A read is normally the
+        /// system, the global and the local file put together, so a snapshot taken that way cannot be
+        /// used to decide what an update of this repository overwrites: writing goes to the local
+        /// file alone, and a key that only the global file holds cannot be unset or rolled back
+        /// here. Only the write path of a setting uses this; showing the keys keeps the merged read,
+        /// so nothing stays hidden from the user.
+        /// </summary>
+        public Dictionary<string, string> ReadLocalAll()
+        {
+            Args = "config --local -l";
+            return Parse(ReadToEnd());
         }
 
         public async Task<Dictionary<string, string>> ReadAllAsync()
         {
             Args = "config -l";
+            return Parse(await ReadToEndAsync().ConfigureAwait(false));
+        }
 
-            var output = await ReadToEndAsync().ConfigureAwait(false);
+        /// <summary>The local-file counterpart of <see cref="ReadAllAsync"/>, see <see cref="ReadLocalAll"/>.</summary>
+        public async Task<Dictionary<string, string>> ReadLocalAllAsync()
+        {
+            Args = "config --local -l";
+            return Parse(await ReadToEndAsync().ConfigureAwait(false));
+        }
+
+        private static Dictionary<string, string> Parse(Result output)
+        {
             var rs = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             if (output.IsSuccess)
             {

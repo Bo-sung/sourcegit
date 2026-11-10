@@ -107,7 +107,7 @@
                 Classes="icon_button"
                 IsEnabled="{Binding CanBack}"
                 Width="28"
-                Command="{Binding Back}">
+                Command="{Binding Back}" ToolTip.Tip="{DynamicResource Text.Blame.Back}" AutomationProperties.Name="{DynamicResource Text.Blame.Back}">
         <Path Width="12" Height="12" Data="{StaticResource Icons.TriangleLeft}"/>
       </Button>
 
@@ -115,7 +115,7 @@
               Classes="icon_button"
               IsEnabled="{Binding CanForward}"
               Width="28"
-              Command="{Binding Forward}">
+              Command="{Binding Forward}" ToolTip.Tip="{DynamicResource Text.Blame.Forward}" AutomationProperties.Name="{DynamicResource Text.Blame.Forward}">
         <Path Width="12" Height="12" Data="{StaticResource Icons.TriangleRight}"/>
       </Button>
 
@@ -144,7 +144,7 @@
               IsEnabled="{Binding PrevRevision, Converter={x:Static ObjectConverters.IsNotNull}}"
               Width="28" Margin="4,0"
               Command="{Binding GotoPrevRevision}"
-              ToolTip.Tip="{DynamicResource Text.Blame.BlameOnPreviousRevision}">
+              ToolTip.Tip="{DynamicResource Text.Blame.BlameOnPreviousRevision}" AutomationProperties.Name="{DynamicResource Text.Blame.BlameOnPreviousRevision}">
         <Path Width="14" Height="14" Data="{StaticResource Icons.GotoParent}"/>
       </Button>
     </Grid>

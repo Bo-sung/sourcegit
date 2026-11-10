@@ -101,5 +101,97 @@
                 IsChecked="{Binding ForcePush, Mode=TwoWay}"
                 ToolTip.Tip="--force-with-lease"/>
     </Grid>
+
+    <!-- A03/A04/A21: effective push target before execution. `git push <remote> <local>:<remote>`
+         is unchanged; git itself resolves pushURL/URL, this block only shows the result. -->
+    <Border Margin="0,10,0,0" Padding="8,6" CornerRadius="4"
+            BorderThickness="1" BorderBrush="{DynamicResource Brush.Border2}"
+            Background="Transparent"
+            IsVisible="{Binding IsClassicLayoutActive, Source={x:Static vm:Preferences.Instance}}">
+      <StackPanel Orientation="Vertical" Spacing="2">
+        <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto,Auto,Auto">
+          <TextBlock Grid.Row="0" Grid.Column="0" FontSize="12" Foreground="{DynamicResource Brush.FG2}"
+                     HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"
+                     Text="{DynamicResource Text.Classic.Transfer.Target}"/>
+          <TextBlock Grid.Row="0" Grid.Column="1" FontSize="12" TextWrapping="Wrap"
+                     VerticalAlignment="Center" Classes="bold"
+                     Text="{Binding TargetRemoteNames, Mode=OneWay}"/>
+
+          <TextBlock Grid.Row="1" Grid.Column="0" FontSize="12" Foreground="{DynamicResource Brush.FG2}"
+                     HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,8,0"
+                     Text="{DynamicResource Text.Classic.Transfer.Endpoint}"/>
+          <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="*,Auto">
+            <Panel Grid.Column="0">
+              <TextBlock FontSize="12" TextWrapping="Wrap"
+                         IsVisible="{Binding IsTargetEndpointHidden, Mode=OneWay, Converter={x:Static BoolConverters.Not}}"
+                         Text="{Binding TargetEndpoints, Mode=OneWay}"/>
+              <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="DarkOrange"
+                         IsVisible="{Binding IsTargetEndpointHidden, Mode=OneWay}"
+                         Text="{DynamicResource Text.Classic.Transfer.EndpointHidden}"/>
+            </Panel>
+            <Border Grid.Column="1" Margin="8,2,0,2" Padding="5,1" CornerRadius="4"
+                    VerticalAlignment="Center" Background="{DynamicResource Brush.Badge}"
+                    IsVisible="{Binding IsPushURLEndpoint, Mode=OneWay}">
+              <TextBlock FontSize="11" Foreground="{DynamicResource Brush.BadgeFG}"
+                         Text="{DynamicResource Text.Classic.Transfer.PushURLEndpoint}"/>
+            </Border>
+          </Grid>
+
+          <TextBlock Grid.Row="2" Grid.Column="0" FontSize="12" Foreground="{DynamicResource Brush.FG2}"
+                     HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,8,0"
+                     Text="{DynamicResource Text.Classic.Transfer.Mapping}"/>
+          <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" Spacing="2">
+            <TextBlock FontSize="12" TextWrapping="Wrap"
+                       Text="{Binding TargetMapping, Mode=OneWay}"/>
+            <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="DarkOrange"
+                       IsVisible="{Binding IsNewRemoteBranch, Mode=OneWay}"
+                       Text="{DynamicResource Text.Classic.Transfer.NewBranch}"/>
+            <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                       IsVisible="{Binding IsTrackingUpdate, Mode=OneWay}"
+                       Text="{DynamicResource Text.Classic.Transfer.TrackingUpdate}"/>
+          </StackPanel>
+
+          <TextBlock Grid.Row="3" Grid.Column="1" FontSize="11" TextWrapping="Wrap"
+                     Foreground="{DynamicResource Brush.FG2}"
+                     IsVisible="{Binding IsTargetSecretHidden, Mode=OneWay}"
+                     Text="{DynamicResource Text.Classic.Transfer.SecretHidden}"/>
+        </Grid>
+
+        <StackPanel Orientation="Vertical" Spacing="2" Margin="0,4,0,0">
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     IsVisible="{Binding IsAuthSSH, Mode=OneWay}"
+                     Text="{DynamicResource Text.Classic.Transfer.AuthSSH}"/>
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     IsVisible="{Binding IsAuthHTTPS, Mode=OneWay}"
+                     Text="{DynamicResource Text.Classic.Transfer.AuthHTTPS}"/>
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     IsVisible="{Binding IsAuthAnonymous, Mode=OneWay}"
+                     Text="{DynamicResource Text.Classic.Transfer.AuthAnonymous}"/>
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     IsVisible="{Binding IsAuthMixed, Mode=OneWay}"
+                     Text="{DynamicResource Text.Classic.Transfer.AuthMixed}"/>
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     Text="{DynamicResource Text.Classic.Transfer.SshKeyConfigured}">
+            <TextBlock.IsVisible>
+              <MultiBinding Converter="{x:Static BoolConverters.And}">
+                <Binding Path="IsAuthSSH" Mode="OneWay"/>
+                <Binding Path="IsSSHKeyConfigured" Mode="OneWay"/>
+              </MultiBinding>
+            </TextBlock.IsVisible>
+          </TextBlock>
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     Text="{DynamicResource Text.Classic.Transfer.SshKeyDefault}">
+            <TextBlock.IsVisible>
+              <MultiBinding Converter="{x:Static BoolConverters.And}">
+                <Binding Path="IsAuthSSH" Mode="OneWay"/>
+                <Binding Path="IsSSHKeyDefault" Mode="OneWay"/>
+              </MultiBinding>
+            </TextBlock.IsVisible>
+          </TextBlock>
+          <TextBlock FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource Brush.FG2}"
+                     Text="{DynamicResource Text.Classic.Transfer.AuthFailureHint}"/>
+        </StackPanel>
+      </StackPanel>
+    </Border>
   </StackPanel>
 </UserControl>
